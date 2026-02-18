@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반도체 뉴스 대시보드</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <!-- 사이드바 -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-microchip"></i>
+                <span>반도체 뉴스</span>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-section="dashboard">
+                <i class="fas fa-home"></i>
+                <span>대시보드</span>
+            </a>
+            <a href="#" class="nav-item" data-section="priority">
+                <i class="fas fa-star"></i>
+                <span>우선순위</span>
+            </a>
+            <a href="#" class="nav-item" data-section="recent">
+                <i class="fas fa-clock"></i>
+                <span>최신 뉴스</span>
+            </a>
+            <a href="#" class="nav-item" data-section="personalized">
+                <i class="fas fa-user-cog"></i>
+                <span>맞춤 뉴스</span>
+            </a>
+            <a href="#" class="nav-item" data-section="trends">
+                <i class="fas fa-chart-line"></i>
+                <span>트렌드</span>
+            </a>
+            <a href="#" class="nav-item" data-section="search">
+                <i class="fas fa-search"></i>
+                <span>검색</span>
+            </a>
+            <a href="#" class="nav-item" data-section="bookmarks">
+                <i class="fas fa-bookmark"></i>
+                <span>북마크</span>
+            </a>
+            <a href="/preferences" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>설정</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <button onclick="manualCrawl()" class="crawl-btn">
+                <i class="fas fa-sync-alt"></i>
+                뉴스 업데이트
+            </button>
+        </div>
+    </aside>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="main-content">
+        <!-- 헤더 -->
+        <header class="main-header">
+            <div class="header-left">
+                <h1 id="page-title">반도체 뉴스 대시보드</h1>
+            </div>
+            <div class="header-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="기사 검색...">
+                </div>
+                <div class="stats-summary">
+                    <span class="stat">
+                        <i class="fas fa-newspaper"></i>
+                        <span id="total-articles">{{ total_articles }}</span>
+                    </span>
+                    <span class="stat">
+                        <i class="fas fa-calendar-day"></i>
+                        <span id="today-articles">{{ today_articles }}</span>
+                    </span>
+                </div>
+            </div>
+        </header>
+
+        <!-- 컨텐츠 영역 -->
+        <div class="content-area">
+            <!-- 대시보드 섹션 -->
+            <section id="dashboard-section" class="content-section active">
+                <div class="section-header">
+                    <h2>📊 개요</h2>
+                </div>
+                
+                <div class="overview-grid">
+                    <div class="overview-card">
+                        <h3>🔥 우선순위 높은 뉴스</h3>
+                        <div class="priority-articles">
+                            {% for article in priority_articles %}
+                            <div class="article-card priority-card" onclick="showArticleDetail({{ article.id }})">
+                                <div class="article-header">
+                                    <span class="priority-badge priority-{{ article.priority_score|round|int }}">
+                                        {{ "%.1f"|format(article.priority_score) }}
+                                    </span>
+                                    <span class="source">{{ article.source }}</span>
+                                </div>
+                                <h4>{{ article.title }}</h4>
+                                <p class="summary">{{ article.summary[:150] }}...</p>
+                                <div class="article-footer">
+                                    <span class="date">{{ article.published_date.strftime('%Y-%m-%d %H:%M') if article.published_date else '방금 전' }}</span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <div class="overview-card">
+                        <h3>⏰ 최신 뉴스</h3>
+                        <div class="recent-articles">
+                            {% for article in recent_articles %}
+                            <div class="article-item" onclick="showArticleDetail({{ article.id }})">
+                                <div class="article-info">
+                                    <h5>{{ article.title }}</h5>
+                                    <div class="article-meta">
+                                        <span class="source">{{ article.source }}</span>
+                                        <span class="date">{{ article.crawled_at.strftime('%H:%M') if article.crawled_at else '방금 전' }}</span>
+                                    </div>
+                                </div>
+                                <div class="priority-indicator">
+                                    <span class="priority-score">{{ "%.1f"|format(article.priority_score) }}</span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 우선순위 섹션 -->
+            <section id="priority-section" class="content-section">
+                <div class="section-header">
+                    <h2>⭐ 우선순위 높은 뉴스</h2>
+                </div>
+                <div id="priority-articles-container" class="articles-grid"></div>
+            </section>
+
+            <!-- 최신 뉴스 섹션 -->
+            <section id="recent-section" class="content-section">
+                <div class="section-header">
+                    <h2>🕒 최신 뉴스</h2>
+                </div>
+                <div id="recent-articles-container" class="articles-grid"></div>
+            </section>
+
+            <!-- 개인화된 뉴스 섹션 -->
+            <section id="personalized-section" class="content-section">
+                <div class="section-header">
+                    <h2>👤 맞춤 뉴스</h2>
+                    <p class="section-subtitle">관심사와 설정에 맞춘 기사들을 보여드립니다.</p>
+                </div>
+                <div id="personalized-articles-container" class="articles-grid"></div>
+            </section>
+
+            <!-- 트렌드 섹션 -->
+            <section id="trends-section" class="content-section">
+                <div class="section-header">
+                    <h2>📈 현재 트렌드</h2>
+                </div>
+                <div id="trends-container"></div>
+            </section>
+
+            <!-- 검색 섹션 -->
+            <section id="search-section" class="content-section">
+                <div class="section-header">
+                    <h2>🔍 검색 결과</h2>
+                </div>
+                <div id="search-results-container" class="articles-grid"></div>
+            </section>
+
+            <!-- 북마크 섹션 -->
+            <section id="bookmarks-section" class="content-section">
+                <div class="section-header">
+                    <h2>📑 북마크</h2>
+                    <p class="section-subtitle">저장해둔 기사들을 확인하세요.</p>
+                </div>
+                <div id="bookmarks-container" class="articles-grid"></div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 기사 상세 모달 -->
+    <div id="article-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title"></h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="article-meta">
+                    <span class="source" id="modal-source"></span>
+                    <span class="date" id="modal-date"></span>
+                    <span class="priority-badge" id="modal-priority"></span>
+                </div>
+                <div class="article-summary" id="modal-summary"></div>
+                <div class="article-content" id="modal-content"></div>
+                <div class="article-actions">
+                    <button id="bookmark-btn" onclick="toggleBookmark()" class="btn-bookmark">
+                        <i class="far fa-bookmark"></i>
+                        북마크
+                    </button>
+                    <a id="modal-link" href="#" target="_blank" class="btn-primary">원문 보기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 로딩 스피너 -->
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>로딩 중...</p>
+    </div>
+
+    <!-- 토스트 알림 -->
+    <div id="toast" class="toast"></div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

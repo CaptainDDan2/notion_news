@@ -1,0 +1,45 @@
+name: semiconductor-news
+region: nyc1
+
+services:
+  - name: web
+    source_dir: /
+    git:
+      repo_clone_url: https://github.com/YOUR_USERNAME/semiconductor-news.git
+      branch: main
+    build_command: pip install -r requirements.txt
+    run_command: python main_run.py --web
+    environment_slug: python
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    http_port: 5000
+    health_check:
+      http_path: /health
+      initial_delay_seconds: 30
+      period_seconds: 10
+      timeout_seconds: 5
+      failure_threshold: 3
+      success_threshold: 1
+    envs:
+      - key: FLASK_ENV
+        value: production
+        scope: RUN_AND_BUILD_TIME
+      - key: FLASK_APP
+        value: main_run.py
+        scope: RUN_AND_BUILD_TIME
+      - key: OPENAI_API_KEY
+        value: ${OPENAI_API_KEY}
+        type: SECRET
+        scope: RUN_TIME
+
+databases:
+  - name: news-db
+    engine: PG
+    version: "13"
+    size: db-s-dev-database
+
+alerts:
+  - rule: CPU_UTILIZATION
+    value: 80
+  - rule: MEM_UTILIZATION
+    value: 80

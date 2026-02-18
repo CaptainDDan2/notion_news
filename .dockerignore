@@ -1,0 +1,54 @@
+# Git 관련 파일
+.git
+.gitignore
+README.md
+
+# Python 캐시 파일
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+env.bak/
+venv.bak/
+
+# IDE 관련 파일
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS 관련 파일
+.DS_Store
+Thumbs.db
+
+# 로그 파일
+*.log
+logs/
+
+# 테스트 관련 파일
+.pytest_cache/
+.coverage
+htmlcov/
+
+# 개발 전용 파일
+.env.local
+.env.development
+.env.test
+
+# 임시 파일
+tmp/
+temp/
+
+# 데이터베이스 파일 (개발용)
+*.db
+instance/
+
+# Docker 관련 파일 (빌드 시 제외)
+Dockerfile
+.dockerignore
+docker-compose.yml

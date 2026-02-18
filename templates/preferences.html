@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>설정 - 반도체 뉴스 대시보드</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <div class="preferences-container">
+        <div class="preferences-header">
+            <button onclick="goBack()" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                대시보드로 돌아가기
+            </button>
+            <h1>사용자 설정</h1>
+        </div>
+
+        <div class="preferences-content">
+            <form id="preferences-form" class="preferences-form">
+                
+                <!-- 관심 키워드 섹션 -->
+                <div class="settings-section">
+                    <h2><i class="fas fa-heart"></i> 관심 키워드</h2>
+                    <p class="section-description">관심 있는 키워드를 설정하면 관련 기사가 우선적으로 표시됩니다.</p>
+                    
+                    <div class="keyword-input-container">
+                        <input type="text" id="interest-keyword-input" placeholder="키워드를 입력하고 Enter를 누르세요">
+                        <button type="button" onclick="addInterestKeyword()" class="add-btn">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    
+                    <div id="interest-keywords-list" class="keywords-list"></div>
+                </div>
+
+                <!-- 차단 키워드 섹션 -->
+                <div class="settings-section">
+                    <h2><i class="fas fa-ban"></i> 차단 키워드</h2>
+                    <p class="section-description">설정된 키워드가 포함된 기사는 표시되지 않습니다.</p>
+                    
+                    <div class="keyword-input-container">
+                        <input type="text" id="block-keyword-input" placeholder="차단할 키워드를 입력하고 Enter를 누르세요">
+                        <button type="button" onclick="addBlockKeyword()" class="add-btn">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    
+                    <div id="block-keywords-list" class="keywords-list"></div>
+                </div>
+
+                <!-- 선호 뉴스 소스 섹션 -->
+                <div class="settings-section">
+                    <h2><i class="fas fa-newspaper"></i> 선호 뉴스 소스</h2>
+                    <p class="section-description">선택한 소스의 기사만 표시됩니다.</p>
+                    
+                    <div class="sources-grid">
+                        <label class="source-checkbox">
+                            <input type="checkbox" name="source" value="EE Times">
+                            <span class="checkmark"></span>
+                            EE Times
+                        </label>
+                        <label class="source-checkbox">
+                            <input type="checkbox" name="source" value="전자신문">
+                            <span class="checkmark"></span>
+                            전자신문
+                        </label>
+                        <label class="source-checkbox">
+                            <input type="checkbox" name="source" value="Semiconductor Engineering">
+                            <span class="checkmark"></span>
+                            Semiconductor Engineering
+                        </label>
+                        <label class="source-checkbox">
+                            <input type="checkbox" name="source" value="AnandTech">
+                            <span class="checkmark"></span>
+                            AnandTech
+                        </label>
+                        <label class="source-checkbox">
+                            <input type="checkbox" name="source" value="Tom's Hardware">
+                            <span class="checkmark"></span>
+                            Tom's Hardware
+                        </label>
+                        <label class="source-checkbox">
+                            <input type="checkbox" name="source" value="디지털타임스">
+                            <span class="checkmark"></span>
+                            디지털타임스
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 필터 설정 섹션 -->
+                <div class="settings-section">
+                    <h2><i class="fas fa-filter"></i> 필터 설정</h2>
+                    
+                    <div class="setting-item">
+                        <label for="min-priority">최소 우선순위 점수:</label>
+                        <div class="range-container">
+                            <input type="range" id="min-priority" name="min-priority" min="0" max="10" step="0.1" value="0">
+                            <span id="min-priority-value">0.0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <label for="max-articles">페이지당 기사 수:</label>
+                        <select id="max-articles" name="max-articles">
+                            <option value="10">10개</option>
+                            <option value="20" selected>20개</option>
+                            <option value="30">30개</option>
+                            <option value="50">50개</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 알림 설정 섹션 -->
+                <div class="settings-section">
+                    <h2><i class="fas fa-bell"></i> 알림 설정</h2>
+                    
+                    <div class="setting-item">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="notifications-enabled" name="notifications-enabled" checked>
+                            <span class="toggle-slider"></span>
+                            실시간 알림 활성화
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <label for="notification-threshold">알림 우선순위 임계값:</label>
+                        <div class="range-container">
+                            <input type="range" id="notification-threshold" name="notification-threshold" min="5" max="10" step="0.1" value="7">
+                            <span id="notification-threshold-value">7.0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 저장 버튼 -->
+                <div class="form-actions">
+                    <button type="button" onclick="resetToDefaults()" class="btn-secondary">
+                        <i class="fas fa-undo"></i>
+                        기본값으로 초기화
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i>
+                        설정 저장
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 로딩 및 알림 -->
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>설정을 저장하고 있습니다...</p>
+    </div>
+    
+    <div id="toast" class="toast"></div>
+
+    <script src="{{ url_for('static', filename='preferences.js') }}"></script>
+</body>
+</html>

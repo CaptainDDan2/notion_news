@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  semiconductor-news:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=main_run.py
+      - FLASK_ENV=production
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - news_data:/app/instance
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # 개발 환경용 서비스 (선택사항)
+  semiconductor-news-dev:
+    build: .
+    ports:
+      - "5001:5000"
+    environment:
+      - FLASK_ENV=development
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - .:/app
+      - news_data_dev:/app/instance
+    restart: unless-stopped
+    profiles:
+      - dev
+
+  # 백그라운드 스케줄러 (프로덕션)
+  news-scheduler:
+    build: .
+    command: ["python", "main_run.py", "--scheduler"]
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - news_data:/app/instance
+    restart: unless-stopped
+    depends_on:
+      - semiconductor-news
+
+volumes:
+  news_data:
+    driver: local
+  news_data_dev:
+    driver: local
