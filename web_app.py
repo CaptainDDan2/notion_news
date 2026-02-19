@@ -365,6 +365,46 @@ def create_app():
             logger.error(f"기사 상세 API 오류: {str(e)}")
             return jsonify({'success': False, 'error': str(e)}), 500
 
+    @app.route('/api/article/<int:article_id>/related', methods=['GET'])
+    def api_related_articles(article_id):
+        """관련 기사 조회 API"""
+        try:
+            session = get_db_session()
+            
+            # 원본 기사 확인
+            article = session.query(NewsArticle).filter_by(id=article_id).first()
+            if not article:
+                session.close()
+                return jsonify({'success': False, 'error': '기사를 찾을 수 없습니다'}), 404
+            
+            # 관련 기사 조회
+            from database import get_related_articles
+            limit = int(request.args.get('limit', 5))
+            related = get_related_articles(article_id, session, limit=limit)
+            
+            # 영어 제목 번역
+            related_data = []
+            for rel_article in related:
+                article_dict = rel_article.to_dict()
+                if article_dict.get('title') and NewsAnalyzer:
+                    analyzer = NewsAnalyzer()
+                    translated = analyzer._translate_text(article_dict['title'], is_title=True)
+                    if translated and translated != article_dict['title']:
+                        article_dict['title'] = translated
+                related_data.append(article_dict)
+            
+            session.close()
+            
+            return jsonify({
+                'success': True,
+                'related_articles': related_data,
+                'count': len(related_data)
+            })
+            
+        except Exception as e:
+            logger.error(f"관련 기사 API 오류: {str(e)}")
+            return jsonify({'success': False, 'error': str(e)}), 500
+
     @app.route('/api/crawl', methods=['POST'])
     def api_crawl_news():
         """수동 뉴스 크롤링 API"""

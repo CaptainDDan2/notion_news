@@ -43,10 +43,10 @@ class NewsAnalyzer:
             '삼성': 5.0, 'Samsung': 5.0, 'samsung': 4.8,
             '하이닉스': 5.0, 'SK Hynix': 5.0, 'Hynix': 4.8,
             
-            # 최상위 반도체 공정 및 소자
+            # 최상위 반도체 공정 및 소자 (공정 강화!)
             '반도체': 5.0, 'semiconductor': 5.0,
-            '공정': 4.5, 'process': 4.3, 'manufacturing': 4.3,
-            '소자': 4.8, 'device': 4.5, 'chip': 4.2,
+            '공정': 5.0, 'process': 4.9, 'manufacturing': 4.7, '프로세스': 4.9, '제조': 4.5,
+            '소자': 5.0, 'device': 4.9, 'chip': 4.7, '칩': 4.9,
             
             # 고급 공정 노드 (2nm, 3nm 최우선)
             '2nm': 5.0, '1nm': 5.0,
@@ -69,41 +69,57 @@ class NewsAnalyzer:
         }
 
     def _is_english_text(self, text: str) -> bool:
-        """텍스트가 영어인지 감지 (한글 비율이 낮으면 영어)"""
-        if not text:
+        """텍스트가 주로 영어인지 감지"""
+        if not text or len(text) < 3:
             return False
+        
         korean_char_count = sum(1 for c in text if ord(c) >= 0xAC00 and ord(c) <= 0xD7A3)
-        total_chars = len(text)
-        korean_ratio = korean_char_count / total_chars if total_chars > 0 else 0
-        return korean_ratio < 0.2  # 한글이 20% 미만이면 영어
+        english_char_count = sum(1 for c in text if (ord(c) >= 65 and ord(c) <= 90) or (ord(c) >= 97 and ord(c) <= 122))
+        
+        # 한글이 거의 없고 영어가 많으면 영어 텍스트
+        korean_ratio = korean_char_count / len(text) if len(text) > 0 else 0
+        english_ratio = english_char_count / len(text) if len(text) > 0 else 0
+        
+        # 한글이 10% 미만, 영어가 30% 이상이면 영어로 봄
+        return korean_ratio < 0.1 and english_ratio > 0.3
 
     def _translate_text(self, text: str, is_title: bool = False) -> str:
         """텍스트를 한글로 번역"""
+        if not text or len(text) < 3:
+            return text
+        
+        # 영어 텍스트가 아니면 그대로 반환
         if not self._is_english_text(text):
             return text
-            
+        
         try:
-            if self.openai_api_key and len(text) > 10:
+            if self.openai_api_key:
                 max_tokens = 100 if is_title else 300
+                logger.debug(f"[번역] 시작: {text[:40]}...")
+                
                 response = openai.ChatCompletion.create(
                     model="gpt-3.5-turbo",
                     messages=[
                         {
                             "role": "system",
-                            "content": "You are a professional translator. Translate the given English text to natural Korean. Provide only the translation, nothing else."
+                            "content": "당신은 전문 번역가입니다. 주어진 영어 텍스트를 자연스러운 한글로 번역하세요. 번역 결과만 제공하세요."
                         },
                         {
                             "role": "user",
-                            "content": text
+                            "content": f"Translate to Korean: {text}"
                         }
                     ],
                     max_tokens=max_tokens,
-                    temperature=0.3
+                    temperature=0.3,
+                    timeout=5
                 )
+                
                 translated = response.choices[0].message.content.strip()
-                return translated if translated else text
+                if translated and len(translated) > 2:
+                    logger.debug(f"[번역] 완료: {translated[:40]}...")
+                    return translated
         except Exception as e:
-            logger.warning(f"번역 실패: {str(e)}")
+            logger.warning(f"번역 실패 ({text[:30]}...): {str(e)[:50]}")
         
         return text
 

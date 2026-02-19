@@ -473,3 +473,25 @@ def update_bookmark_notes(user_id="default", article_id=None, notes="", session=
         return bookmark
     
     return None
+
+def get_related_articles(article_id, session=None, limit=5):
+    """관련 기사 검색 (같은 카테고리 또는 유사 키워드)"""
+    if not session:
+        session = database_session
+    
+    # 원본 기사 정보 가져오기
+    article = session.query(NewsArticle).filter_by(id=article_id).first()
+    if not article:
+        return []
+    
+    # 같은 카테고리 또는 유사 제목의 기사 찾기
+    related = session.query(NewsArticle).filter(
+        NewsArticle.id != article_id,  # 자기 자신 제외
+        (NewsArticle.category == article.category) |  # 같은 카테고리
+        (NewsArticle.source == article.source)  # 같은 출처
+    ).order_by(
+        NewsArticle.priority_score.desc(),
+        NewsArticle.crawled_at.desc()
+    ).limit(limit).all()
+    
+    return related
