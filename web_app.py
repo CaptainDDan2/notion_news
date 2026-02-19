@@ -147,13 +147,18 @@ def create_app():
                         
                         # 번역 및 분석
                         translated_title = analyzer._translate_text(article_data['title'], is_title=True)
-                        priority = analyzer.calculate_priority(article_data)
-                        summary = analyzer.summarize_article(article_data['content'])
+                        translated_content = analyzer._translate_text(article_data['content'], is_title=False)
+                        priority = analyzer.calculate_priority({
+                            **article_data,
+                            'title': translated_title,
+                            'content': translated_content
+                        })
+                        summary = analyzer.summarize_article(translated_content)
                         
                         # DB 저장
                         article = NewsArticle(
                             title=translated_title,
-                            content=article_data['content'],
+                            content=translated_content,
                             summary=summary,
                             url=article_data['url'],
                             source=article_data['source'],
@@ -347,12 +352,17 @@ def create_app():
             
             article_data = article.to_dict()
             
-            # 영어 제목 한글 번역 처리
-            if article_data.get('title') and NewsAnalyzer:
+            # 영어 제목/내용 한글 번역 처리
+            if NewsAnalyzer:
                 analyzer = NewsAnalyzer()
-                translated = analyzer._translate_text(article_data['title'], is_title=True)
-                if translated and translated != article_data['title']:
-                    article_data['title'] = translated
+                if article_data.get('title'):
+                    translated = analyzer._translate_text(article_data['title'], is_title=True)
+                    if translated and translated != article_data['title']:
+                        article_data['title'] = translated
+                if article_data.get('content'):
+                    translated = analyzer._translate_text(article_data['content'], is_title=False)
+                    if translated and translated != article_data['content']:
+                        article_data['content'] = translated
             
             session.close()
             
@@ -430,13 +440,19 @@ def create_app():
                     continue
                 
                 # 분석
-                summary = analyzer.summarize_article(article_data['content'])
-                priority = analyzer.calculate_priority(article_data)
+                translated_title = analyzer._translate_text(article_data['title'], is_title=True)
+                translated_content = analyzer._translate_text(article_data['content'], is_title=False)
+                summary = analyzer.summarize_article(translated_content)
+                priority = analyzer.calculate_priority({
+                    **article_data,
+                    'title': translated_title,
+                    'content': translated_content
+                })
                 
                 # 저장
                 article = NewsArticle(
-                    title=article_data['title'],
-                    content=article_data['content'],
+                    title=translated_title,
+                    content=translated_content,
                     summary=summary,
                     url=article_data['url'],
                     source=article_data['source'],
@@ -452,7 +468,7 @@ def create_app():
                 if priority >= 8.0:
                     high_priority_articles.append({
                         'id': None,  # DB 저장 후 설정
-                        'title': article_data['title'],
+                        'title': translated_title,
                         'priority_score': priority,
                         'source': article_data['source']
                     })
