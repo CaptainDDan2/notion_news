@@ -123,7 +123,7 @@ class NewsAnalyzer:
         
         return text
 
-    def summarize_article(self, content: str, max_length: int = 400) -> str:
+    def summarize_article(self, content: str, max_length: int = 600) -> str:
         """기사 상세 요약 생성 - 구체적이고 구조화된 요약"""
         try:
             if self.openai_api_key and len(content) > 100:

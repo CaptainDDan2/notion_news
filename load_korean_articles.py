@@ -77,11 +77,14 @@ def load_korean_articles():
                 # 우선순위 계산
                 priority = analyzer.calculate_priority(article_data)
                 
+                # 요약 생성
+                summary = analyzer.summarize_article(article_data['content'])
+                
                 # 기사 생성
                 article = NewsArticle(
                     title=article_data['title'],
                     content=article_data['content'],
-                    summary=f"반도체 산업 관련 기사: {article_data['source']}",
+                    summary=summary,
                     url=article_data['url'],
                     source=article_data['source'],
                     published_date=article_data['published_date'],
