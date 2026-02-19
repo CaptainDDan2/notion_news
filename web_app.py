@@ -65,6 +65,23 @@ def create_app():
     # 데이터베이스 초기화
     init_db()
     
+    # 데이터베이스가 비어있으면 샘플 데이터 자동 생성 (Render 배포 환경용)
+    try:
+        session = get_db_session()
+        article_count = session.query(NewsArticle).count()
+        session.close()
+        
+        if article_count == 0:
+            logger.info("데이터베이스가 비어있습니다. 샘플 데이터를 생성합니다...")
+            try:
+                from generate_sample_data import create_sample_data
+                create_sample_data()
+                logger.info("샘플 데이터 생성 완료!")
+            except Exception as e:
+                logger.error(f"샘플 데이터 생성 실패: {str(e)}")
+    except Exception as e:
+        logger.error(f"데이터베이스 확인 실패: {str(e)}")
+    
     # Captain DDandDan 최고 보안 시스템 적용
     init_security(app)
     
