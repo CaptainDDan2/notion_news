@@ -1,1 +1,2 @@
-web: gunicorn --workers=1 --worker-class=sync --timeout=30 --bind=0.0.0.0:$PORT wsgi:app
+release: python initialize_news_priority.py
+web: python main_run.py web
