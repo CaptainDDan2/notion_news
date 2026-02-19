@@ -1,15 +1,16 @@
-#!/usr/bin/env python3
-"""
-WSGI entry point for Render deployment
-Gunicorn uses this to start the Flask application
-"""
+import sys
+import traceback
 
-from web_app import create_app
-import os
-
-# Flask app 생성
-app = create_app()
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=False)
+try:
+    from web_app import create_app
+    app = create_app()
+except Exception as e:
+    print(f"Error initializing app: {e}", file=sys.stderr)
+    traceback.print_exc()
+    # Fallback: Return a minimal Flask app
+    from flask import Flask
+    app = Flask(__name__)
+    
+    @app.route('/')
+    def status():
+        return {"status": "Error during initialization"}, 500
