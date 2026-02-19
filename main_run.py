@@ -43,14 +43,19 @@ def update_news():
             existing = database_session.query(NewsArticle).filter_by(url=article_data['url']).first()
             if existing:
                 continue
-                
+            
+            # 영어 제목 번역
+            translated_title = analyzer._translate_text(article_data['title'], is_title=True)
+            
+            # 우선순위 계산 (원본 제목 사용)
+            priority = analyzer.calculate_priority(article_data)
+            
             # 분석 및 요약
             summary = analyzer.summarize_article(article_data['content'])
-            priority = analyzer.calculate_priority(article_data)
             
             # DB에 저장
             article = NewsArticle(
-                title=article_data['title'],
+                title=translated_title,  # 번역된 제목 사용
                 content=article_data['content'],
                 summary=summary,
                 url=article_data['url'],

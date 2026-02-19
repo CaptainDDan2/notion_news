@@ -45,6 +45,45 @@ class NewsAnalyzer:
             'autonomous': 2.7, '자율주행': 2.7, 'IoT': 2.2, 'blockchain': 2.0
         }
 
+    def _is_english_text(self, text: str) -> bool:
+        """텍스트가 영어인지 감지 (한글 비율이 낮으면 영어)"""
+        if not text:
+            return False
+        korean_char_count = sum(1 for c in text if ord(c) >= 0xAC00 and ord(c) <= 0xD7A3)
+        total_chars = len(text)
+        korean_ratio = korean_char_count / total_chars if total_chars > 0 else 0
+        return korean_ratio < 0.2  # 한글이 20% 미만이면 영어
+
+    def _translate_text(self, text: str, is_title: bool = False) -> str:
+        """텍스트를 한글로 번역"""
+        if not self._is_english_text(text):
+            return text
+            
+        try:
+            if self.openai_api_key and len(text) > 10:
+                max_tokens = 100 if is_title else 300
+                response = openai.ChatCompletion.create(
+                    model="gpt-3.5-turbo",
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": "You are a professional translator. Translate the given English text to natural Korean. Provide only the translation, nothing else."
+                        },
+                        {
+                            "role": "user",
+                            "content": text
+                        }
+                    ],
+                    max_tokens=max_tokens,
+                    temperature=0.3
+                )
+                translated = response.choices[0].message.content.strip()
+                return translated if translated else text
+        except Exception as e:
+            logger.warning(f"번역 실패: {str(e)}")
+        
+        return text
+
     def summarize_article(self, content: str, max_length: int = 400) -> str:
         """기사 상세 요약 생성 - 구체적이고 구조화된 요약"""
         try:
@@ -327,13 +366,17 @@ class NewsAnalyzer:
             content_score = self._calculate_text_score(content) * 0.8
             priority_score += min(content_score, 3.0)
             
-            # 3. 소스 신뢰도 점수 (최대 2점)
+            # 3. 소스 신뢰도 점수 (최대 3.5점) - 기업 뉴스룸 보너스 포함
             source_score = self._calculate_source_score(source)
             priority_score += source_score
             
             # 4. 시간 기반 점수 (최대 2점)
             time_score = self._calculate_time_score(published_date)
             priority_score += time_score
+            
+            # 5. 기업 뉴스룸 추가 보너스 (0-0.5점)
+            if any(keyword in source for keyword in ['Newsroom', 'newsroom', 'Press Release', 'press release']):
+                priority_score += 0.5
             
             # 최종 점수 정규화 (0-10)
             final_score = min(priority_score, 10.0)
@@ -383,7 +426,7 @@ class NewsAnalyzer:
         return score
 
     def _calculate_source_score(self, source: str) -> float:
-        """뉴스 소스의 신뢰도 점수"""
+        """뉴스 소스의 신뢰도 점수 + 기업 뉴스룸 보너스"""
         source_scores = {
             'Reuters': 2.0, '로이터': 2.0,
             'Bloomberg': 2.0, '블룸버그': 2.0, 
@@ -396,11 +439,18 @@ class NewsAnalyzer:
             'AI Weekly': 1.2, 'TechNews': 1.0
         }
         
-        for source_name, score in source_scores.items():
-            if source_name.lower() in source.lower():
-                return score
+        score = 1.0  # 기본 점수
         
-        return 1.0  # 기본 점수
+        for source_name, source_score in source_scores.items():
+            if source_name.lower() in source.lower():
+                score = source_score
+                break
+        
+        # 기업 공식 뉴스룸은 우선순위 +1.5 (매우 신뢰도 높음)
+        if any(keyword in source for keyword in ['Newsroom', 'newsroom', 'Press Release', 'press release', 'Official', 'official']):
+            score += 1.5
+        
+        return min(score, 3.5)  # 최대 3.5
 
     def _calculate_time_score(self, published_date: datetime) -> float:
         """시간 기반 점수 (최신 기사일수록 높은 점수)"""
