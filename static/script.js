@@ -436,6 +436,12 @@ async function showArticleDetail(articleId) {
             // 북마크 상태 확인 및 버튼 업데이트
             await updateBookmarkButton(articleId);
             
+            // 댓글 로드
+            await loadComments(articleId);
+            
+            // 공유 통계 표시
+            await displayShareStats(articleId);
+            
             document.getElementById('article-modal').style.display = 'block';
         } else {
             showToast('기사 정보를 불러오는데 실패했습니다.', 'error');
@@ -447,6 +453,7 @@ async function showArticleDetail(articleId) {
         hideLoading();
     }
 }
+
 
 // 모달 닫기
 function closeModal() {
@@ -919,4 +926,306 @@ function showHighPriorityAlert(article) {
             alertDiv.remove();
         }
     }, 5000);
+}
+
+// ===== 사용자 상호작용 함수 (북마크, 댓글, 공유) =====
+
+// 북마크 버튼 업데이트
+async function updateBookmarkButton(articleId) {
+    try {
+        const response = await fetch(`/api/bookmarks`);
+        const data = await response.json();
+        
+        const isBookmarked = data.bookmarks && data.bookmarks.some(b => b.id === articleId);
+        const bookmarkBtn = document.getElementById('bookmark-btn');
+        
+        if (bookmarkBtn) {
+            if (isBookmarked) {
+                bookmarkBtn.classList.add('bookmarked');
+                bookmarkBtn.textContent = '❤️ 저장됨';
+            } else {
+                bookmarkBtn.classList.remove('bookmarked');
+                bookmarkBtn.textContent = '🤍 저장하기';
+            }
+        }
+    } catch (error) {
+        console.error('북마크 상태 확인 오류:', error);
+    }
+}
+
+// 북마크 토글
+async function toggleBookmark() {
+    if (!currentArticleId) return;
+    
+    try {
+        const response = await fetch(`/api/bookmarks`);
+        const data = await response.json();
+        const isBookmarked = data.bookmarks && data.bookmarks.some(b => b.id === currentArticleId);
+        
+        if (isBookmarked) {
+            // 북마크 삭제
+            await fetch(`/api/bookmark/${currentArticleId}`, { method: 'DELETE' });
+            showToast('저장이 취소되었습니다.', 'info');
+        } else {
+            // 북마크 생성
+            await fetch('/api/bookmark', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    article_id: currentArticleId,
+                    notes: ''
+                })
+            });
+            showToast('기사가 저장되었습니다.', 'success');
+        }
+        
+        await updateBookmarkButton(currentArticleId);
+    } catch (error) {
+        console.error('북마크 토글 오류:', error);
+        showToast('저장 작업에 실패했습니다.', 'error');
+    }
+}
+
+// 댓글 로드
+async function loadComments(articleId) {
+    try {
+        const response = await fetch(`/api/comments/${articleId}`);
+        const data = await response.json();
+        
+        const commentsContainer = document.getElementById('comments-container');
+        if (!commentsContainer) return;
+        
+        let html = '<h4 style="margin-bottom: 16px;">💬 댓글</h4>';
+        
+        if (data.comments && data.comments.length > 0) {
+            html += '<div class="comments-list">';
+            data.comments.forEach(comment => {
+                const timeDiff = getTimeDifference(new Date(comment.created_at));
+                html += `
+                    <div class="comment-item" style="padding: 12px; margin-bottom: 8px; background-color: #f0f0f0; border-radius: 4px; border-left: 3px solid #2383e2;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <strong>${escapeHtml(comment.nickname)}</strong>
+                            <span style="font-size: 0.85em; color: #9b9a97;">${timeDiff}</span>
+                        </div>
+                        <p style="margin: 0 0 8px 0; color: #313131;">${escapeHtml(comment.comment_text)}</p>
+                        <button onclick="likeComment(${comment.id})" class="like-btn" style="font-size: 0.9em; padding: 4px 8px; background: none; border: none; color: #2383e2; cursor: pointer;">
+                            👍 ${comment.likes}
+                        </button>
+                    </div>
+                `;
+            });
+            html += '</div>';
+        } else {
+            html += '<p style="color: #9b9a97;">아직 댓글이 없습니다.</p>';
+        }
+        
+        commentsContainer.innerHTML = html;
+    } catch (error) {
+        console.error('댓글 로드 오류:', error);
+    }
+}
+
+// 댓글 작성
+async function submitComment() {
+    const commentText = document.getElementById('comment-input').value.trim();
+    const nickname = document.getElementById('nickname-input').value.trim() || '익명의 독자';
+    
+    if (!commentText) {
+        showToast('댓글을 입력해주세요.', 'info');
+        return;
+    }
+    
+    if (!currentArticleId) return;
+    
+    try {
+        const response = await fetch('/api/comment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                article_id: currentArticleId,
+                comment_text: commentText,
+                nickname: nickname
+            })
+        });
+        
+        if (response.ok) {
+            document.getElementById('comment-input').value = '';
+            document.getElementById('nickname-input').value = '';
+            showToast('댓글이 작성되었습니다.', 'success');
+            await loadComments(currentArticleId);
+        } else {
+            showToast('댓글 작성에 실패했습니다.', 'error');
+        }
+    } catch (error) {
+        console.error('댓글 작성 오류:', error);
+        showToast('네트워크 오류가 발생했습니다.', 'error');
+    }
+}
+
+// 댓글 좋아요
+async function likeComment(commentId) {
+    try {
+        const response = await fetch(`/api/comment/${commentId}/like`, { method: 'POST' });
+        
+        if (response.ok) {
+            if (currentArticleId) {
+                await loadComments(currentArticleId);
+            }
+        }
+    } catch (error) {
+        console.error('댓글 좋아요 오류:', error);
+    }
+}
+
+// 공유 버튼
+async function trackShare(shareType) {
+    if (!currentArticleId) return;
+    
+    try {
+        // 공유 추적
+        await fetch('/api/article/share', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                article_id: currentArticleId,
+                share_type: shareType
+            })
+        });
+        
+        // 각 공유 타입별 동작
+        if (shareType === 'kakao') {
+            // 카카오톡 공유 (있으면)
+            if (window.Kakao && window.Kakao.Link) {
+                const article = document.querySelector('[data-article-id]');
+                Kakao.Link.sendDefault({
+                    objectType: 'feed',
+                    content: {
+                        title: document.getElementById('modal-title').textContent,
+                        description: document.getElementById('modal-summary').textContent,
+                        imageUrl: '',
+                        link: {
+                            mobileWebUrl: window.location.href,
+                            webUrl: window.location.href
+                        }
+                    }
+                });
+            } else {
+                // 카카오톡이 없으면 링크 복사
+                copyShareLink();
+            }
+            showToast('카카오톡에 공유했습니다.', 'success');
+        } else if (shareType === 'copy') {
+            copyShareLink();
+            showToast('링크가 복사되었습니다.', 'success');
+        } else {
+            showToast('공유가 완료되었습니다.', 'success');
+        }
+    } catch (error) {
+        console.error('공유 오류:', error);
+        showToast('공유에 실패했습니다.', 'error');
+    }
+}
+
+// 링크 복사
+function copyShareLink() {
+    const link = window.location.href;
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(link).then(() => {
+            showToast('링크가 클립보드에 복사되었습니다.', 'success');
+        });
+    } else {
+        // 구형 브라우저 대응
+        const textArea = document.createElement('textarea');
+        textArea.value = link;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        showToast('링크가 클립보드에 복사되었습니다.', 'success');
+    }
+}
+
+// 시간 차이 계산
+function getTimeDifference(date) {
+    const now = new Date();
+    const diff = now - date;
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(diff / 3600000);
+    const days = Math.floor(diff / 86400000);
+    
+    if (minutes < 1) return '방금 전';
+    if (minutes < 60) return `${minutes}분 전`;
+    if (hours < 24) return `${hours}시간 전`;
+    if (days < 7) return `${days}일 전`;
+    
+    return date.toLocaleDateString('ko-KR');
+}
+
+// 관리자 뉴스 추가
+async function submitAdminNews() {
+    const title = document.getElementById('admin-title').value.trim();
+    const content = document.getElementById('admin-content').value.trim();
+    const source = document.getElementById('admin-source').value.trim() || '직접 입력';
+    
+    if (!title || !content) {
+        showToast('제목과 내용을 모두 입력해주세요.', 'info');
+        return;
+    }
+    
+    showLoading();
+    
+    try {
+        const response = await fetch('/api/admin/news', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                title: title,
+                content: content,
+                source: source
+            })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            showToast('뉴스가 추가되었습니다.', 'success');
+            
+            // 폼 초기화
+            document.getElementById('admin-title').value = '';
+            document.getElementById('admin-content').value = '';
+            document.getElementById('admin-source').value = '';
+            
+            // 대시보드 새로고침
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            showToast('뉴스 추가에 실패했습니다.', 'error');
+        }
+    } catch (error) {
+        console.error('관리자 뉴스 추가 오류:', error);
+        showToast('네트워크 오류가 발생했습니다.', 'error');
+    } finally {
+        hideLoading();
+    }
+}
+
+// 공유 통계 표시
+async function displayShareStats(articleId) {
+    try {
+        const response = await fetch(`/api/share-stats/${articleId}`);
+        const data = await response.json();
+        
+        const statsContainer = document.getElementById('share-stats-container');
+        if (!statsContainer || !data.stats) return;
+        
+        const stats = data.stats;
+        statsContainer.innerHTML = `
+            <div style="font-size: 0.9em; color: #9b9a97;">
+                <span>📤 공유됨: ${stats.total} | 
+                       🔗 링크: ${stats.link} | 
+                       💬 카톡: ${stats.kakao} | 
+                       📋 복사: ${stats.copy}</span>
+            </div>
+        `;
+    } catch (error) {
+        console.error('공유 통계 로드 오류:', error);
+    }
 }

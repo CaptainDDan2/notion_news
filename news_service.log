@@ -1218,3 +1218,259 @@ jinja2.exceptions.TemplateNotFound: 500.html
 2026-02-18 23:15:37,393 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
 2026-02-18 23:15:58,385 - web_app - INFO - Å¬¶óÀÌ¾ðÆ® ¿¬°áÀÌ ÇØÁ¦µÇ¾ú½À´Ï´Ù
 2026-02-18 23:15:58,387 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:15:58] "GET /socket.io/?EIO=4&transport=websocket&sid=wWErO1aHcONFvgebAAAk HTTP/1.1" 200 -
+2026-02-18 23:18:44,233 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:18:44] "GET /?id=5203e6a2-76ef-4106-b72f-4c4dd3a4b431&vscodeBrowserReqId=1771424323908 HTTP/1.1" 200 -
+2026-02-18 23:18:44,476 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:18:44] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-02-18 23:18:44,581 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:18:44] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-02-18 23:18:44,903 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:18:44] "GET /socket.io/?EIO=4&transport=polling&t=Pnn7Xpt HTTP/1.1" 200 -
+2026-02-18 23:18:45,189 - web_app - ERROR - Åë°è API ¿À·ù: 'int' object has no attribute 'label'
+2026-02-18 23:18:45,189 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:18:45] "[35m[1mGET /api/stats HTTP/1.1[0m" 500 -
+2026-02-18 23:18:45,241 - web_app - INFO - Å¬¶óÀÌ¾ðÆ®°¡ ¿¬°áµÇ¾ú½À´Ï´Ù
+2026-02-18 23:18:45,241 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:18:45] "POST /socket.io/?EIO=4&transport=polling&t=Pnn7Xr6&sid=lIeX4X0tKEwhTUPfAAAm HTTP/1.1" 200 -
+2026-02-18 23:18:45,260 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:18:45] "GET /socket.io/?EIO=4&transport=polling&t=Pnn7XrE&sid=lIeX4X0tKEwhTUPfAAAm HTTP/1.1" 200 -
+2026-02-18 23:18:46,700 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:18:46] "GET /api/article/1 HTTP/1.1" 200 -
+2026-02-18 23:18:46,952 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:18:46] "GET /api/bookmarks/1/check?user_id=default HTTP/1.1" 200 -
+2026-02-18 23:18:57,315 - captain_security - INFO - Captain DDandDan ÃÖ°í º¸¾È ½Ã½ºÅÛ ÃÊ±âÈ­ ¿Ï·á
+2026-02-18 23:18:57,322 - __main__ - INFO - À¥ ¼­¹ö ½ÃÀÛ: http://0.0.0.0:5000
+2026-02-18 23:18:57,356 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.30.1.60:5000
+2026-02-18 23:18:57,359 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-02-18 23:19:39,717 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:19:39] "GET /api/article/3 HTTP/1.1" 200 -
+2026-02-18 23:19:40,034 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:19:40] "GET /api/bookmarks/3/check?user_id=default HTTP/1.1" 200 -
+2026-02-18 23:21:34,014 - web_app - INFO - Å¬¶óÀÌ¾ðÆ® ¿¬°áÀÌ ÇØÁ¦µÇ¾ú½À´Ï´Ù
+2026-02-18 23:21:34,015 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:21:34] "GET /socket.io/?EIO=4&transport=websocket&sid=lIeX4X0tKEwhTUPfAAAm HTTP/1.1" 200 -
+2026-02-18 23:21:44,608 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:21:44] "GET /?id=cf8bc558-af0c-415d-9cdc-a1d25e52757a&vscodeBrowserReqId=1771424504281 HTTP/1.1" 200 -
+2026-02-18 23:21:44,861 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:21:44] "GET /static/style.css HTTP/1.1" 200 -
+2026-02-18 23:21:44,963 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:21:44] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-02-18 23:21:45,301 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:21:45] "GET /socket.io/?EIO=4&transport=polling&t=Pnn8DsU HTTP/1.1" 200 -
+2026-02-18 23:21:45,597 - web_app - ERROR - Åë°è API ¿À·ù: 'int' object has no attribute 'label'
+2026-02-18 23:21:45,598 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:21:45] "[35m[1mGET /api/stats HTTP/1.1[0m" 500 -
+2026-02-18 23:21:45,628 - web_app - INFO - Å¬¶óÀÌ¾ðÆ®°¡ ¿¬°áµÇ¾ú½À´Ï´Ù
+2026-02-18 23:21:45,628 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:21:45] "POST /socket.io/?EIO=4&transport=polling&t=Pnn8Dtd&sid=nuh4ukJnOZ8BfE4BAAAo HTTP/1.1" 200 -
+2026-02-18 23:21:45,635 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:21:45] "GET /socket.io/?EIO=4&transport=polling&t=Pnn8Dtj&sid=nuh4ukJnOZ8BfE4BAAAo HTTP/1.1" 200 -
+2026-02-18 23:21:46,659 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:21:46] "GET /api/article/1 HTTP/1.1" 200 -
+2026-02-18 23:21:46,916 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:21:46] "GET /api/bookmarks/1/check?user_id=default HTTP/1.1" 200 -
+2026-02-18 23:21:59,089 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:21:59] "GET /api/article/3 HTTP/1.1" 200 -
+2026-02-18 23:21:59,409 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:21:59] "GET /api/bookmarks/3/check?user_id=default HTTP/1.1" 200 -
+2026-02-18 23:22:19,753 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:22:19] "GET /api/article/5 HTTP/1.1" 200 -
+2026-02-18 23:22:20,092 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:22:20] "GET /api/bookmarks/5/check?user_id=default HTTP/1.1" 200 -
+2026-02-18 23:28:05,048 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:28:05] "GET /api/article/5 HTTP/1.1" 200 -
+2026-02-18 23:28:05,308 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:28:05] "GET /api/bookmarks/5/check?user_id=default HTTP/1.1" 200 -
+2026-02-18 23:31:37,540 - web_app - INFO - Å¬¶óÀÌ¾ðÆ® ¿¬°áÀÌ ÇØÁ¦µÇ¾ú½À´Ï´Ù
+2026-02-18 23:31:37,542 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:31:37] "GET /socket.io/?EIO=4&transport=websocket&sid=nuh4ukJnOZ8BfE4BAAAo HTTP/1.1" 200 -
+2026-02-18 23:31:37,697 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:31:37] "GET /?id=cf8bc558-af0c-415d-9cdc-a1d25e52757a&vscodeBrowserReqId=1771425097355 HTTP/1.1" 200 -
+2026-02-18 23:31:37,936 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:31:37] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-02-18 23:31:38,037 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:31:38] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-02-18 23:31:38,056 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:31:38] "GET /socket.io/?EIO=4&transport=polling&t=PnnAUb1 HTTP/1.1" 200 -
+2026-02-18 23:31:38,365 - web_app - ERROR - Åë°è API ¿À·ù: 'int' object has no attribute 'label'
+2026-02-18 23:31:38,365 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:31:38] "[35m[1mGET /api/stats HTTP/1.1[0m" 500 -
+2026-02-18 23:31:38,374 - web_app - INFO - Å¬¶óÀÌ¾ðÆ®°¡ ¿¬°áµÇ¾ú½À´Ï´Ù
+2026-02-18 23:31:38,378 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:31:38] "POST /socket.io/?EIO=4&transport=polling&t=PnnAUbD&sid=WGi2CWjuiSRi1gQPAAAq HTTP/1.1" 200 -
+2026-02-18 23:31:38,385 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:31:38] "GET /socket.io/?EIO=4&transport=polling&t=PnnAUbG&sid=WGi2CWjuiSRi1gQPAAAq HTTP/1.1" 200 -
+2026-02-18 23:32:06,037 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:32:06] "GET / HTTP/1.1" 200 -
+2026-02-18 23:32:06,134 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:32:06] "GET /static/style.css HTTP/1.1" 200 -
+2026-02-18 23:32:06,301 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:32:06] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-02-18 23:32:06,579 - web_app - ERROR - Åë°è API ¿À·ù: 'int' object has no attribute 'label'
+2026-02-18 23:32:06,585 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:32:06] "[35m[1mGET /api/stats HTTP/1.1[0m" 500 -
+2026-02-18 23:32:06,767 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:32:06] "GET /socket.io/?EIO=4&transport=polling&t=PnnAbWz HTTP/1.1" 200 -
+2026-02-18 23:32:08,731 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:32:08] "GET /api/article/1 HTTP/1.1" 200 -
+2026-02-18 23:32:08,742 - web_app - INFO - Å¬¶óÀÌ¾ðÆ®°¡ ¿¬°áµÇ¾ú½À´Ï´Ù
+2026-02-18 23:32:08,746 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:32:08] "GET /socket.io/?EIO=4&transport=polling&t=PnnAb_j&sid=jQESpI2Qigvnh4n6AAAs HTTP/1.1" 200 -
+2026-02-18 23:32:08,748 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:32:08] "POST /socket.io/?EIO=4&transport=polling&t=PnnAb_g&sid=jQESpI2Qigvnh4n6AAAs HTTP/1.1" 200 -
+2026-02-18 23:32:08,755 - web_app - ERROR - Exception on /favicon.ico [GET]
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\werkzeug\routing\map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1341, in handle_user_exception
+    return self.handle_http_exception(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1281, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 540, in not_found
+    'success': True,
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 404.html
+2026-02-18 23:32:08,774 - web_app - ERROR - ¼­¹ö ³»ºÎ ¿À·ù: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2026-02-18 23:32:08,776 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:32:08] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2026-02-18 23:32:08,797 - werkzeug - ERROR - Error on request:
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "C:\Python\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\werkzeug\routing\map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1341, in handle_user_exception
+    return self.handle_http_exception(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1281, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 540, in not_found
+    'success': True,
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 404.html
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\werkzeug\serving.py", line 370, in run_wsgi
+    execute(self.server.app)
+  File "C:\Python\Lib\site-packages\werkzeug\serving.py", line 331, in execute
+    application_iter = app(environ, start_response)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2213, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_socketio\__init__.py", line 43, in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\engineio\middleware.py", line 74, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2193, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1399, in handle_exception
+    server_error = self.ensure_sync(handler)(server_error)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 546, in internal_error
+    return jsonify({'success': False, 'error': str(e)}), 500
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 500.html
+2026-02-18 23:32:08,980 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:32:08] "GET /socket.io/?EIO=4&transport=polling&t=PnnAc7K&sid=jQESpI2Qigvnh4n6AAAs HTTP/1.1" 200 -
+2026-02-18 23:32:09,228 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:32:09] "GET /api/bookmarks/1/check?user_id=default HTTP/1.1" 200 -
+2026-02-18 23:32:19,177 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:32:19] "GET /api/article/3 HTTP/1.1" 200 -
+2026-02-18 23:32:19,495 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:32:19] "GET /api/bookmarks/3/check?user_id=default HTTP/1.1" 200 -
+2026-02-18 23:32:30,600 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:32:30] "GET /api/article/9 HTTP/1.1" 200 -
+2026-02-18 23:32:30,927 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:32:30] "GET /api/bookmarks/9/check?user_id=default HTTP/1.1" 200 -
+2026-02-18 23:35:00,074 - web_app - INFO - Å¬¶óÀÌ¾ðÆ® ¿¬°áÀÌ ÇØÁ¦µÇ¾ú½À´Ï´Ù
+2026-02-18 23:35:00,076 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:35:00] "GET /socket.io/?EIO=4&transport=websocket&sid=WGi2CWjuiSRi1gQPAAAq HTTP/1.1" 200 -
+2026-02-18 23:35:59,359 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:35:59] "GET /api/article/4 HTTP/1.1" 200 -
+2026-02-18 23:35:59,602 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:35:59] "GET /api/bookmarks/4/check?user_id=default HTTP/1.1" 200 -
+2026-02-18 23:40:10,443 - web_app - INFO - Å¬¶óÀÌ¾ðÆ® ¿¬°áÀÌ ÇØÁ¦µÇ¾ú½À´Ï´Ù
+2026-02-18 23:40:10,454 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:40:10] "GET /socket.io/?EIO=4&transport=websocket&sid=jQESpI2Qigvnh4n6AAAs HTTP/1.1" 200 -
+2026-02-18 23:52:55,248 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:52:55] "GET /socket.io/?EIO=4&transport=polling&t=PnnFMKM HTTP/1.1" 200 -
+2026-02-18 23:52:55,509 - web_app - INFO - Å¬¶óÀÌ¾ðÆ®°¡ ¿¬°áµÇ¾ú½À´Ï´Ù
+2026-02-18 23:52:55,509 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:52:55] "POST /socket.io/?EIO=4&transport=polling&t=PnnFMPW&sid=VlYufgnuZxT6DDHBAAAu HTTP/1.1" 200 -
+2026-02-18 23:52:55,572 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:52:55] "GET /socket.io/?EIO=4&transport=polling&t=PnnFMPX&sid=VlYufgnuZxT6DDHBAAAu HTTP/1.1" 200 -
+2026-02-18 23:52:55,579 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:52:55] "GET /socket.io/?EIO=4&transport=polling&t=PnnFMUQ&sid=VlYufgnuZxT6DDHBAAAu HTTP/1.1" 200 -
+2026-02-18 23:56:23,788 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:56:23] "GET /?id=58d1d780-ae71-4386-b6ab-3f4e67a8210a&vscodeBrowserReqId=1771426583455 HTTP/1.1" 200 -
+2026-02-18 23:56:24,052 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:56:24] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-02-18 23:56:24,142 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:56:24] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-02-18 23:56:24,545 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:56:24] "GET /socket.io/?EIO=4&transport=polling&t=PnnG9VF HTTP/1.1" 200 -
+2026-02-18 23:56:24,849 - web_app - ERROR - Åë°è API ¿À·ù: 'int' object has no attribute 'label'
+2026-02-18 23:56:24,850 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:56:24] "[35m[1mGET /api/stats HTTP/1.1[0m" 500 -
+2026-02-18 23:56:25,036 - web_app - INFO - Å¬¶óÀÌ¾ðÆ®°¡ ¿¬°áµÇ¾ú½À´Ï´Ù
+2026-02-18 23:56:25,036 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:56:25] "POST /socket.io/?EIO=4&transport=polling&t=PnnG9YI&sid=eEOywOFvEFyGDHfxAAAw HTTP/1.1" 200 -
+2026-02-18 23:56:25,036 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:56:25] "GET /socket.io/?EIO=4&transport=polling&t=PnnG9YL&sid=eEOywOFvEFyGDHfxAAAw HTTP/1.1" 200 -
+2026-02-18 23:56:27,020 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:56:27] "GET /api/article/1 HTTP/1.1" 200 -
+2026-02-18 23:56:27,298 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:56:27] "GET /api/bookmarks/1/check?user_id=default HTTP/1.1" 200 -

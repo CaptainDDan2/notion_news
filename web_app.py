@@ -6,7 +6,8 @@ Notion 스타일의 뉴스 대시보드
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, join_room, leave_room
-from database import (init_db, NewsArticle, UserPreferences, ArticleBookmark, get_articles_by_priority, 
+from database import (init_db, NewsArticle, UserPreferences, ArticleBookmark, ArticleComment, 
+                     ArticleShare, AdminNews, db, get_articles_by_priority, 
                      get_recent_articles, search_articles, get_db_session, 
                      get_user_preferences, update_user_preferences, get_filtered_articles,
                      add_bookmark, remove_bookmark, get_bookmarked_articles, is_bookmarked, update_bookmark_notes)
@@ -589,7 +590,226 @@ def create_app():
         logger.error(f"서버 내부 오류: {str(error)}")
         return render_template('500.html'), 500
 
-    # WebSocket 이벤트 핸들러
+    # ===== 사용자 상호작용 API 엔드포인트 =====
+    
+    @app.route('/api/bookmark', methods=['POST'])
+    def create_bookmark():
+        """아티클 북마크 생성"""
+        try:
+            data = request.json
+            article_id = data.get('article_id')
+            notes = data.get('notes', '')
+            
+            # 기존 북마크 확인
+            existing = ArticleBookmark.query.filter_by(article_id=article_id).first()
+            if existing:
+                return jsonify({'error': '이미 북마크된 아티클입니다'}), 409
+            
+            bookmark = ArticleBookmark(
+                article_id=article_id,
+                notes=notes,
+                created_at=datetime.now()
+            )
+            db.session.add(bookmark)
+            db.session.commit()
+            
+            return jsonify({'success': True, 'bookmark': bookmark.to_dict()}), 201
+        except Exception as e:
+            logger.error(f'북마크 생성 실패: {str(e)}')
+            return jsonify({'error': str(e)}), 500
+    
+    @app.route('/api/bookmark/<int:article_id>', methods=['DELETE'])
+    def delete_bookmark(article_id):
+        """북마크 삭제"""
+        try:
+            bookmark = ArticleBookmark.query.filter_by(article_id=article_id).first()
+            if not bookmark:
+                return jsonify({'error': '북마크를 찾을 수 없습니다'}), 404
+            
+            db.session.delete(bookmark)
+            db.session.commit()
+            
+            return jsonify({'success': True}), 200
+        except Exception as e:
+            logger.error(f'북마크 삭제 실패: {str(e)}')
+            return jsonify({'error': str(e)}), 500
+    
+    @app.route('/api/bookmarks', methods=['GET'])
+    def get_bookmarks():
+        """저장된 북마크 조회"""
+        try:
+            bookmarks = ArticleBookmark.query.all()
+            articles = []
+            
+            for bookmark in bookmarks:
+                article = NewsArticle.query.get(bookmark.article_id)
+                if article:
+                    article_data = article.to_dict()
+                    article_data['bookmark_id'] = bookmark.id
+                    article_data['bookmark_notes'] = bookmark.notes
+                    articles.append(article_data)
+            
+            return jsonify({
+                'success': True,
+                'count': len(articles),
+                'bookmarks': articles
+            }), 200
+        except Exception as e:
+            logger.error(f'북마크 조회 실패: {str(e)}')
+            return jsonify({'error': str(e)}), 500
+    
+    @app.route('/api/comment', methods=['POST'])
+    def create_comment():
+        """아티클 댓글 작성"""
+        try:
+            data = request.json
+            article_id = data.get('article_id')
+            comment_text = data.get('comment_text')
+            nickname = data.get('nickname', '익명의 독자')
+            
+            if not comment_text or len(comment_text.strip()) == 0:
+                return jsonify({'error': '댓글 내용이 비어있습니다'}), 400
+            
+            comment = ArticleComment(
+                article_id=article_id,
+                nickname=nickname,
+                comment_text=comment_text,
+                likes=0,
+                created_at=datetime.now()
+            )
+            db.session.add(comment)
+            db.session.commit()
+            
+            return jsonify({'success': True, 'comment': comment.to_dict()}), 201
+        except Exception as e:
+            logger.error(f'댓글 작성 실패: {str(e)}')
+            return jsonify({'error': str(e)}), 500
+    
+    @app.route('/api/comments/<int:article_id>', methods=['GET'])
+    def get_comments(article_id):
+        """아티클 댓글 조회"""
+        try:
+            comments = ArticleComment.query.filter_by(article_id=article_id).order_by(ArticleComment.created_at.desc()).all()
+            
+            return jsonify({
+                'success': True,
+                'article_id': article_id,
+                'count': len(comments),
+                'comments': [comment.to_dict() for comment in comments]
+            }), 200
+        except Exception as e:
+            logger.error(f'댓글 조회 실패: {str(e)}')
+            return jsonify({'error': str(e)}), 500
+    
+    @app.route('/api/comment/<int:comment_id>/like', methods=['POST'])
+    def like_comment(comment_id):
+        """댓글 좋아요 증가"""
+        try:
+            comment = ArticleComment.query.get(comment_id)
+            if not comment:
+                return jsonify({'error': '댓글을 찾을 수 없습니다'}), 404
+            
+            comment.likes += 1
+            db.session.commit()
+            
+            return jsonify({'success': True, 'likes': comment.likes}), 200
+        except Exception as e:
+            logger.error(f'댓글 좋아요 실패: {str(e)}')
+            return jsonify({'error': str(e)}), 500
+    
+    @app.route('/api/article/share', methods=['POST'])
+    def track_share():
+        """아티클 공유 추적"""
+        try:
+            data = request.json
+            article_id = data.get('article_id')
+            share_type = data.get('share_type', 'link')  # 'kakao', 'link', 'copy'
+            
+            # 'kakao', 'link', 'copy' 중에서만 허용
+            if share_type not in ['kakao', 'link', 'copy']:
+                share_type = 'link'
+            
+            share = ArticleShare(
+                article_id=article_id,
+                share_type=share_type,
+                created_at=datetime.now()
+            )
+            db.session.add(share)
+            db.session.commit()
+            
+            return jsonify({'success': True, 'share': share.to_dict()}), 201
+        except Exception as e:
+            logger.error(f'공유 추적 실패: {str(e)}')
+            return jsonify({'error': str(e)}), 500
+    
+    @app.route('/api/admin/news', methods=['POST'])
+    def add_admin_news():
+        """수동 뉴스 추가 (관리자용)"""
+        try:
+            data = request.json
+            title = data.get('title')
+            content = data.get('content')
+            source = data.get('source', '직접 입력')
+            
+            if not title or not content:
+                return jsonify({'error': '제목과 내용은 필수입니다'}), 400
+            
+            # 자동으로 요약 생성
+            analyzer = NewsAnalyzer()
+            summary = analyzer.analyze(title, content)
+            
+            # 관리자 뉴스 저장
+            admin_news = AdminNews(
+                title=title,
+                content=content,
+                summary=summary,
+                source=source,
+                priority=8.0,  # 관리자 뉴스는 높은 우선순위
+                created_at=datetime.now()
+            )
+            db.session.add(admin_news)
+            
+            # NewsArticle에도 저장 (일반 뉴스 피드에서 보이도록)
+            news_article = NewsArticle(
+                title=title,
+                content=content,
+                summary=summary,
+                source=source,
+                priority_score=8.0,
+                crawled_at=datetime.now()
+            )
+            db.session.add(news_article)
+            db.session.commit()
+            
+            return jsonify({'success': True, 'admin_news': admin_news.to_dict()}), 201
+        except Exception as e:
+            logger.error(f'관리자 뉴스 추가 실패: {str(e)}')
+            return jsonify({'error': str(e)}), 500
+    
+    @app.route('/api/share-stats/<int:article_id>', methods=['GET'])
+    def get_share_stats(article_id):
+        """아티클 공유 통계 조회"""
+        try:
+            shares = ArticleShare.query.filter_by(article_id=article_id).all()
+            
+            # 공유 타입별로 집계
+            stats = {
+                'total': len(shares),
+                'kakao': len([s for s in shares if s.share_type == 'kakao']),
+                'link': len([s for s in shares if s.share_type == 'link']),
+                'copy': len([s for s in shares if s.share_type == 'copy'])
+            }
+            
+            return jsonify({
+                'success': True,
+                'article_id': article_id,
+                'stats': stats
+            }), 200
+        except Exception as e:
+            logger.error(f'공유 통계 조회 실패: {str(e)}')
+            return jsonify({'error': str(e)}), 500
+
+    # ===== 웹소켓 이벤트 핸들러 =====
     @socketio.on('connect')
     def handle_connect():
         """클라이언트 연결"""

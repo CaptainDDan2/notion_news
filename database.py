@@ -17,6 +17,74 @@ database_session = SessionLocal()
 
 Base = declarative_base()
 
+class ArticleComment(Base):
+    """기사 댓글 테이블"""
+    __tablename__ = "article_comments"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    article_id = Column(Integer, index=True, nullable=False)
+    nickname = Column(String, nullable=False)  # 익명 닉네임
+    comment_text = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    likes = Column(Integer, default=0)  # 좋아요 수
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'article_id': self.article_id,
+            'nickname': self.nickname,
+            'comment_text': self.comment_text,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'likes': self.likes
+        }
+
+class ArticleShare(Base):
+    """기사 공유 기록 테이블"""
+    __tablename__ = "article_shares"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    article_id = Column(Integer, index=True, nullable=False)
+    share_type = Column(String)  # 'kakao', 'link', 'copy' 등
+    shared_at = Column(DateTime, default=datetime.utcnow)
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'article_id': self.article_id,
+            'share_type': self.share_type,
+            'shared_at': self.shared_at.isoformat() if self.shared_at else None
+        }
+
+class AdminNews(Base):
+    """관리자가 수동으로 추가한 뉴스"""
+    __tablename__ = "admin_news"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, nullable=False)
+    content = Column(Text, nullable=False)
+    summary = Column(Text)
+    url = Column(String, unique=True, index=True, nullable=False)
+    source = Column(String, default="관리자 등록")
+    published_date = Column(DateTime, default=datetime.utcnow)
+    added_at = Column(DateTime, default=datetime.utcnow)
+    priority_score = Column(Float, default=8.0)  # 수동 등록은 높은 우선순위
+    category = Column(String, default="semiconductor")
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'content': self.content,
+            'summary': self.summary,
+            'url': self.url,
+            'source': self.source,
+            'published_date': self.published_date.isoformat() if self.published_date else None,
+            'added_at': self.added_at.isoformat() if self.added_at else None,
+            'priority_score': self.priority_score,
+            'category': self.category,
+            'is_admin': True
+        }
+
 class ArticleBookmark(Base):
     """기사 북마크 테이블"""
     __tablename__ = "article_bookmarks"
