@@ -202,7 +202,10 @@ def get_recent_articles(session=None, limit=20):
     """최근 기사 조회 (중복 제거)"""
     if not session:
         session = database_session
-    articles = session.query(NewsArticle).order_by(NewsArticle.crawled_at.desc()).limit(limit * 2).all()
+    articles = session.query(NewsArticle).order_by(
+        NewsArticle.crawled_at.desc(),
+        NewsArticle.id.desc()
+    ).limit(limit * 2).all()
     # URL 기반 중복 제거
     seen_urls = set()
     unique_articles = []

@@ -116,10 +116,10 @@ def create_app():
         try:
             session = get_db_session()
             
-            # 우선순위 높은 기사들 (성능: 초기 로드 줄이기)
-            priority_articles = get_articles_by_priority(session, limit=4)
-            # 최근 기사들  
-            recent_articles = get_recent_articles(session, limit=6)
+            # 우선순위 높은 기사들
+            priority_articles = get_articles_by_priority(session, limit=10)
+            # 최근 기사들
+            recent_articles = get_recent_articles(session, limit=15)
             
             # 통계 정보
             total_articles = session.query(NewsArticle).count()
@@ -181,7 +181,10 @@ def create_app():
                 articles = search_articles(search_query, session, limit=limit)
             else:
                 if sort_by == 'recent':
-                    articles = session.query(NewsArticle).order_by(NewsArticle.crawled_at.desc())
+                    articles = session.query(NewsArticle).order_by(
+                        NewsArticle.crawled_at.desc(),
+                        NewsArticle.id.desc()
+                    )
                 elif sort_by == 'title':
                     articles = session.query(NewsArticle).order_by(NewsArticle.title)
                 else:  # priority
