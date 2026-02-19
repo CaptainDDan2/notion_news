@@ -9,7 +9,12 @@ error_info = {"error": None, "traceback": None}
 # 실제 앱 로드 시도
 try:
     from web_app import create_app
-    app = create_app()
+    result = create_app()
+    # create_app()이 튜플을 반환하는 경우 처리
+    if isinstance(result, tuple):
+        app, socketio = result
+    else:
+        app = result
     print("✓ web_app loaded successfully", file=sys.stderr)
 except Exception as e:
     error_info["error"] = str(e)
