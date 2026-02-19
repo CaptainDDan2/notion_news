@@ -221,8 +221,18 @@ def create_app():
             
             # 우선순위 높은 기사들
             priority_articles = get_articles_by_priority(session, limit=10)
-            # 최근 기사들
-            recent_articles = get_recent_articles(session, limit=15)
+            # 최근 기사들 (30개로 확대)
+            recent_articles = get_recent_articles(session, limit=30)
+            
+            # 영어 제목 한글로 번역 처리
+            if NewsAnalyzer:
+                analyzer = NewsAnalyzer()
+                for article in recent_articles:
+                    if article.title:
+                        # 영어 제목이면 번역
+                        translated = analyzer._translate_text(article.title, is_title=True)
+                        if translated != article.title:
+                            article.title = translated
             
             # 통계 정보
             total_articles = session.query(NewsArticle).count()
@@ -300,6 +310,16 @@ def create_app():
             # JSON 응답 준비
             articles_data = [article.to_dict() for article in articles]
             
+            # 영어 제목 한글 번역 처리
+            if NewsAnalyzer:
+                analyzer = NewsAnalyzer()
+                for article_dict in articles_data:
+                    if article_dict.get('title'):
+                        # 영어 제목이면 번역
+                        translated = analyzer._translate_text(article_dict['title'], is_title=True)
+                        if translated and translated != article_dict['title']:
+                            article_dict['title'] = translated
+            
             session.close()
             
             return jsonify({
@@ -326,6 +346,14 @@ def create_app():
                 return jsonify({'success': False, 'error': '기사를 찾을 수 없습니다'}), 404
             
             article_data = article.to_dict()
+            
+            # 영어 제목 한글 번역 처리
+            if article_data.get('title') and NewsAnalyzer:
+                analyzer = NewsAnalyzer()
+                translated = analyzer._translate_text(article_data['title'], is_title=True)
+                if translated and translated != article_data['title']:
+                    article_data['title'] = translated
+            
             session.close()
             
             return jsonify({
@@ -560,6 +588,15 @@ def create_app():
             
             articles = get_filtered_articles(user_id, session, limit, sort_by)
             articles_data = [article.to_dict() for article in articles]
+            
+            # 영어 제목 한글 번역 처리
+            if NewsAnalyzer:
+                analyzer = NewsAnalyzer()
+                for article_dict in articles_data:
+                    if article_dict.get('title'):
+                        translated = analyzer._translate_text(article_dict['title'], is_title=True)
+                        if translated and translated != article_dict['title']:
+                            article_dict['title'] = translated
             
             session.close()
             
