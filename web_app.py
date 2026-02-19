@@ -86,6 +86,22 @@ def create_app():
                 logger.info("샘플 데이터 생성 완료!")
             except Exception as e:
                 logger.error(f"샘플 데이터 생성 실패: {str(e)}")
+        
+        # Render 배포 환경: 한국 기사 추가 (샘플 데이터만 있으면)
+        session = get_db_session()
+        korean_count = session.query(NewsArticle).filter(
+            NewsArticle.source.in_(['전자신문', 'TheElec', '서울경제'])
+        ).count()
+        session.close()
+        
+        if korean_count == 0 and article_count > 0:
+            logger.info("한국 뉴스 기사를 추가합니다 (Render 배포 용)...")
+            try:
+                from load_korean_articles import load_korean_articles
+                load_korean_articles()
+                logger.info("한국 뉴스 기사 로드 완료!")
+            except Exception as e:
+                logger.warning(f"한국 기사 로드 실패: {str(e)}")
     except Exception as e:
         logger.error(f"데이터베이스 확인 실패: {str(e)}")
     
