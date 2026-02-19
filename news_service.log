@@ -1711,3 +1711,770 @@ jinja2.exceptions.TemplateNotFound: 500.html
 2026-02-19 14:12:25,519 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:12:25] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
 2026-02-19 14:12:27,979 - web_app - INFO - Å¬¶óÀÌ¾ðÆ® ¿¬°áÀÌ ÇØÁ¦µÇ¾ú½À´Ï´Ù
 2026-02-19 14:12:27,979 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:12:27] "GET /socket.io/?EIO=4&transport=websocket&sid=KkdcZyMXibr6DsFOAAA0 HTTP/1.1" 200 -
+2026-02-19 14:18:13,911 - web_app - INFO - Å¬¶óÀÌ¾ðÆ® ¿¬°áÀÌ ÇØÁ¦µÇ¾ú½À´Ï´Ù
+2026-02-19 14:18:13,913 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:13] "GET /socket.io/?EIO=4&transport=websocket&sid=GTjWgnvsnRzWB1kCAAA4 HTTP/1.1" 200 -
+2026-02-19 14:18:14,214 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:14] "GET / HTTP/1.1" 200 -
+2026-02-19 14:18:14,239 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:14] "GET /static/style.css HTTP/1.1" 200 -
+2026-02-19 14:18:14,466 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:14] "GET /static/script.js HTTP/1.1" 200 -
+2026-02-19 14:18:14,783 - web_app - ERROR - Åë°è API ¿À·ù: 'int' object has no attribute 'label'
+2026-02-19 14:18:14,783 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:14] "[35m[1mGET /api/stats HTTP/1.1[0m" 500 -
+2026-02-19 14:18:14,788 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:14] "GET /socket.io/?EIO=4&transport=polling&t=PnqLP_F HTTP/1.1" 200 -
+2026-02-19 14:18:15,896 - web_app - INFO - Å¬¶óÀÌ¾ðÆ®°¡ ¿¬°áµÇ¾ú½À´Ï´Ù
+2026-02-19 14:18:15,902 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:15] "POST /socket.io/?EIO=4&transport=polling&t=PnqLQLR&sid=l28PMhY_3XAFd8ZDAAA6 HTTP/1.1" 200 -
+2026-02-19 14:18:16,222 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:16] "GET /socket.io/?EIO=4&transport=polling&t=PnqLQLU&sid=l28PMhY_3XAFd8ZDAAA6 HTTP/1.1" 200 -
+2026-02-19 14:18:16,224 - web_app - ERROR - Exception on /favicon.ico [GET]
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\werkzeug\routing\map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1341, in handle_user_exception
+    return self.handle_http_exception(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1281, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 540, in not_found
+    return jsonify({
+       ^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 404.html
+2026-02-19 14:18:16,238 - web_app - ERROR - ¼­¹ö ³»ºÎ ¿À·ù: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2026-02-19 14:18:16,240 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:16] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2026-02-19 14:18:16,255 - werkzeug - ERROR - Error on request:
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "C:\Python\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\werkzeug\routing\map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1341, in handle_user_exception
+    return self.handle_http_exception(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1281, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 540, in not_found
+    return jsonify({
+       ^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 404.html
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\werkzeug\serving.py", line 370, in run_wsgi
+    execute(self.server.app)
+  File "C:\Python\Lib\site-packages\werkzeug\serving.py", line 331, in execute
+    application_iter = app(environ, start_response)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2213, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_socketio\__init__.py", line 43, in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\engineio\middleware.py", line 74, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2193, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1399, in handle_exception
+    server_error = self.ensure_sync(handler)(server_error)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 546, in internal_error
+    logger.error(f"ºÏ¸¶Å© È®ÀÎ API ¿À·ù: {str(e)}")
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 500.html
+2026-02-19 14:18:16,596 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:16] "GET /socket.io/?EIO=4&transport=polling&t=PnqLQRQ&sid=l28PMhY_3XAFd8ZDAAA6 HTTP/1.1" 200 -
+2026-02-19 14:18:17,078 - web_app - INFO - Å¬¶óÀÌ¾ðÆ® ¿¬°áÀÌ ÇØÁ¦µÇ¾ú½À´Ï´Ù
+2026-02-19 14:18:17,108 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:17] "GET / HTTP/1.1" 200 -
+2026-02-19 14:18:17,813 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:17] "GET /api/article/1 HTTP/1.1" 200 -
+2026-02-19 14:18:19,798 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:19] "GET /socket.io/?EIO=4&transport=websocket&sid=l28PMhY_3XAFd8ZDAAA6 HTTP/1.1" 200 -
+2026-02-19 14:18:20,114 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:20] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-02-19 14:18:20,114 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:20] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-02-19 14:18:20,133 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:20] "GET /socket.io/?EIO=4&transport=polling&t=PnqLRNf HTTP/1.1" 200 -
+2026-02-19 14:18:20,145 - web_app - ERROR - Åë°è API ¿À·ù: 'int' object has no attribute 'label'
+2026-02-19 14:18:20,146 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:20] "[35m[1mGET /api/stats HTTP/1.1[0m" 500 -
+2026-02-19 14:18:20,499 - web_app - INFO - Å¬¶óÀÌ¾ðÆ®°¡ ¿¬°áµÇ¾ú½À´Ï´Ù
+2026-02-19 14:18:20,501 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:20] "GET /socket.io/?EIO=4&transport=polling&t=PnqLROJ&sid=7IasDvmSohH7aitmAAA8 HTTP/1.1" 200 -
+2026-02-19 14:18:20,501 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:20] "POST /socket.io/?EIO=4&transport=polling&t=PnqLROH&sid=7IasDvmSohH7aitmAAA8 HTTP/1.1" 200 -
+2026-02-19 14:18:20,736 - web_app - ERROR - Exception on /favicon.ico [GET]
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\werkzeug\routing\map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1341, in handle_user_exception
+    return self.handle_http_exception(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1281, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 540, in not_found
+    return jsonify({
+       ^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 404.html
+2026-02-19 14:18:20,736 - web_app - ERROR - ¼­¹ö ³»ºÎ ¿À·ù: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2026-02-19 14:18:20,736 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:20] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2026-02-19 14:18:20,753 - werkzeug - ERROR - Error on request:
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "C:\Python\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\werkzeug\routing\map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1341, in handle_user_exception
+    return self.handle_http_exception(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1281, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 540, in not_found
+    return jsonify({
+       ^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 404.html
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\werkzeug\serving.py", line 370, in run_wsgi
+    execute(self.server.app)
+  File "C:\Python\Lib\site-packages\werkzeug\serving.py", line 331, in execute
+    application_iter = app(environ, start_response)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2213, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_socketio\__init__.py", line 43, in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\engineio\middleware.py", line 74, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2193, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1399, in handle_exception
+    server_error = self.ensure_sync(handler)(server_error)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 546, in internal_error
+    logger.error(f"ºÏ¸¶Å© È®ÀÎ API ¿À·ù: {str(e)}")
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 500.html
+2026-02-19 14:18:20,778 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:18:20] "GET /socket.io/?EIO=4&transport=polling&t=PnqLRTT&sid=7IasDvmSohH7aitmAAA8 HTTP/1.1" 200 -
+2026-02-19 14:20:06,073 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:20:06] "GET /api/articles?limit=3 HTTP/1.1" 200 -
+2026-02-19 14:23:51,826 - captain_security - INFO - Captain DDandDan ÃÖ°í º¸¾È ½Ã½ºÅÛ ÃÊ±âÈ­ ¿Ï·á
+2026-02-19 14:23:51,840 - __main__ - INFO - À¥ ¼­¹ö ½ÃÀÛ: http://0.0.0.0:5000
+2026-02-19 14:23:52,247 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.30.1.5:5000
+2026-02-19 14:23:52,247 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-02-19 14:24:33,563 - web_app - INFO - Å¬¶óÀÌ¾ðÆ® ¿¬°áÀÌ ÇØÁ¦µÇ¾ú½À´Ï´Ù
+2026-02-19 14:24:33,564 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:24:33] "GET /socket.io/?EIO=4&transport=websocket&sid=7IasDvmSohH7aitmAAA8 HTTP/1.1" 200 -
+2026-02-19 14:24:33,874 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:24:33] "GET / HTTP/1.1" 200 -
+2026-02-19 14:24:33,893 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:24:33] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-02-19 14:24:34,127 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:24:34] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-02-19 14:24:34,446 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:24:34] "GET /socket.io/?EIO=4&transport=polling&t=PnqMshP HTTP/1.1" 200 -
+2026-02-19 14:24:34,447 - web_app - ERROR - Åë°è API ¿À·ù: 'int' object has no attribute 'label'
+2026-02-19 14:24:34,449 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:24:34] "[35m[1mGET /api/stats HTTP/1.1[0m" 500 -
+2026-02-19 14:24:35,549 - web_app - INFO - Å¬¶óÀÌ¾ðÆ®°¡ ¿¬°áµÇ¾ú½À´Ï´Ù
+2026-02-19 14:24:35,551 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:24:35] "POST /socket.io/?EIO=4&transport=polling&t=PnqMt1P&sid=S6vEvc32vNyFf8ZHAAA- HTTP/1.1" 200 -
+2026-02-19 14:24:35,862 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:24:35] "GET /socket.io/?EIO=4&transport=polling&t=PnqMt1T&sid=S6vEvc32vNyFf8ZHAAA- HTTP/1.1" 200 -
+2026-02-19 14:24:35,875 - web_app - ERROR - Exception on /favicon.ico [GET]
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\werkzeug\routing\map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1341, in handle_user_exception
+    return self.handle_http_exception(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1281, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 540, in not_found
+    return jsonify({
+       ^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 404.html
+2026-02-19 14:24:35,881 - web_app - ERROR - ¼­¹ö ³»ºÎ ¿À·ù: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2026-02-19 14:24:35,884 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:24:35] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2026-02-19 14:24:35,895 - werkzeug - ERROR - Error on request:
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "C:\Python\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\werkzeug\routing\map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1341, in handle_user_exception
+    return self.handle_http_exception(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1281, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 540, in not_found
+    return jsonify({
+       ^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 404.html
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\werkzeug\serving.py", line 370, in run_wsgi
+    execute(self.server.app)
+  File "C:\Python\Lib\site-packages\werkzeug\serving.py", line 331, in execute
+    application_iter = app(environ, start_response)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2213, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_socketio\__init__.py", line 43, in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\engineio\middleware.py", line 74, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2193, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1399, in handle_exception
+    server_error = self.ensure_sync(handler)(server_error)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 546, in internal_error
+    logger.error(f"ºÏ¸¶Å© È®ÀÎ API ¿À·ù: {str(e)}")
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 500.html
+2026-02-19 14:24:36,245 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:24:36] "GET /socket.io/?EIO=4&transport=polling&t=PnqMt7a&sid=S6vEvc32vNyFf8ZHAAA- HTTP/1.1" 200 -
+2026-02-19 14:24:39,677 - web_app - INFO - ¾Ë¸² Àü¼Û: ´º½º Å©·Ñ¸µÀ» ½ÃÀÛÇÕ´Ï´Ù...
+2026-02-19 14:24:39,678 - news_crawler - INFO - ¹ÝµµÃ¼ ´º½º Å©·Ñ¸µ ½ÃÀÛ...
+2026-02-19 14:24:39,678 - news_crawler - INFO - EE Times¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:24:56,039 - news_crawler - ERROR - EE Times Å©·Ñ¸µ ½ÇÆÐ: HTTPSConnectionPool(host='www.eetimes.com', port=443): Read timed out. (read timeout=15)
+2026-02-19 14:24:58,041 - news_crawler - INFO - ÀüÀÚ½Å¹®¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:24:59,002 - news_crawler - INFO - ÀüÀÚ½Å¹®¿¡¼­ 0°³ ±â»ç ¼öÁý ¿Ï·á
+2026-02-19 14:25:01,004 - news_crawler - INFO - Semiconductor Engineering¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:25:03,707 - news_crawler - INFO - Semiconductor Engineering¿¡¼­ 0°³ ±â»ç ¼öÁý ¿Ï·á
+2026-02-19 14:25:05,711 - news_crawler - INFO - AnandTech¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:25:09,080 - news_crawler - INFO - AnandTech¿¡¼­ 0°³ ±â»ç ¼öÁý ¿Ï·á
+2026-02-19 14:25:11,083 - news_crawler - INFO - Tom's Hardware¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:25:15,676 - news_crawler - ERROR - Tom's Hardware Å©·Ñ¸µ ½ÇÆÐ: 404 Client Error: Not Found for url: https://www.tomshardware.com/news/tag/semiconductors
+2026-02-19 14:25:17,677 - news_crawler - INFO - µðÁöÅÐÅ¸ÀÓ½º¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:25:18,679 - news_crawler - ERROR - µðÁöÅÐÅ¸ÀÓ½º Å©·Ñ¸µ ½ÇÆÐ: 404 Client Error: Not Found for url: https://www.dt.co.kr:443/contents.html?article_no=2021020302109976601002
+2026-02-19 14:25:20,680 - news_crawler - INFO - TechCrunch¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:25:21,813 - news_crawler - INFO - TechCrunch¿¡¼­ 0°³ ±â»ç ¼öÁý ¿Ï·á
+2026-02-19 14:25:23,815 - news_crawler - INFO - IEEE Spectrum¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:25:25,124 - news_crawler - INFO - IEEE Spectrum¿¡¼­ 0°³ ±â»ç ¼öÁý ¿Ï·á
+2026-02-19 14:25:27,126 - news_crawler - INFO - The Register¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:25:28,205 - news_crawler - ERROR - The Register Å©·Ñ¸µ ½ÇÆÐ: 404 Client Error: Not Found for url: https://www.theregister.com/hardware/semiconductors/
+2026-02-19 14:25:30,217 - news_crawler - INFO - Nikkei Asia¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:25:32,587 - news_crawler - INFO - Nikkei Asia¿¡¼­ 0°³ ±â»ç ¼öÁý ¿Ï·á
+2026-02-19 14:25:34,594 - news_crawler - INFO - ÃÑ 0°³ÀÇ °íÀ¯ ±â»ç ¼öÁý ¿Ï·á
+2026-02-19 14:25:34,594 - web_app - INFO - ¾Ë¸² Àü¼Û: 0°³ÀÇ »õ·Î¿î ±â»ç¸¦ Ãß°¡Çß½À´Ï´Ù.
+2026-02-19 14:25:34,613 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:25:34] "POST /api/crawl HTTP/1.1" 200 -
+2026-02-19 14:25:34,918 - web_app - ERROR - Åë°è API ¿À·ù: 'int' object has no attribute 'label'
+2026-02-19 14:25:34,918 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:25:34] "[35m[1mGET /api/stats HTTP/1.1[0m" 500 -
+2026-02-19 14:25:35,250 - web_app - ERROR - Åë°è API ¿À·ù: 'int' object has no attribute 'label'
+2026-02-19 14:25:35,254 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:25:35] "[35m[1mGET /api/stats HTTP/1.1[0m" 500 -
+2026-02-19 14:25:35,671 - web_app - INFO - Å¬¶óÀÌ¾ðÆ® ¿¬°áÀÌ ÇØÁ¦µÇ¾ú½À´Ï´Ù
+2026-02-19 14:25:35,671 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:25:35] "GET /socket.io/?EIO=4&transport=websocket&sid=S6vEvc32vNyFf8ZHAAA- HTTP/1.1" 200 -
+2026-02-19 14:25:35,694 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:25:35] "GET / HTTP/1.1" 200 -
+2026-02-19 14:25:36,007 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:25:36] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-02-19 14:25:36,025 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:25:36] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-02-19 14:25:36,358 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:25:36] "GET /socket.io/?EIO=4&transport=polling&t=PnqN5oY HTTP/1.1" 200 -
+2026-02-19 14:25:36,358 - web_app - ERROR - Åë°è API ¿À·ù: 'int' object has no attribute 'label'
+2026-02-19 14:25:36,362 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:25:36] "[35m[1mGET /api/stats HTTP/1.1[0m" 500 -
+2026-02-19 14:25:36,867 - web_app - INFO - Å¬¶óÀÌ¾ðÆ®°¡ ¿¬°áµÇ¾ú½À´Ï´Ù
+2026-02-19 14:25:36,869 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:25:36] "POST /socket.io/?EIO=4&transport=polling&t=PnqN5_X&sid=kXpYf053oE98b7gWAABA HTTP/1.1" 200 -
+2026-02-19 14:25:37,174 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:25:37] "GET /socket.io/?EIO=4&transport=polling&t=PnqN5_Z&sid=kXpYf053oE98b7gWAABA HTTP/1.1" 200 -
+2026-02-19 14:25:37,205 - web_app - ERROR - Exception on /favicon.ico [GET]
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\werkzeug\routing\map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1341, in handle_user_exception
+    return self.handle_http_exception(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1281, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 540, in not_found
+    return jsonify({
+       ^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 404.html
+2026-02-19 14:25:37,208 - web_app - ERROR - ¼­¹ö ³»ºÎ ¿À·ù: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2026-02-19 14:25:37,208 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:25:37] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2026-02-19 14:25:37,221 - werkzeug - ERROR - Error on request:
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "C:\Python\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\werkzeug\routing\map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1341, in handle_user_exception
+    return self.handle_http_exception(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1281, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 540, in not_found
+    return jsonify({
+       ^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 404.html
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\werkzeug\serving.py", line 370, in run_wsgi
+    execute(self.server.app)
+  File "C:\Python\Lib\site-packages\werkzeug\serving.py", line 331, in execute
+    application_iter = app(environ, start_response)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2213, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_socketio\__init__.py", line 43, in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\engineio\middleware.py", line 74, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2193, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1399, in handle_exception
+    server_error = self.ensure_sync(handler)(server_error)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 546, in internal_error
+    logger.error(f"ºÏ¸¶Å© È®ÀÎ API ¿À·ù: {str(e)}")
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 500.html
+2026-02-19 15:25:11,288 - web_app - INFO - Å¬¶óÀÌ¾ðÆ® ¿¬°áÀÌ ÇØÁ¦µÇ¾ú½À´Ï´Ù
+2026-02-19 15:25:14,187 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 15:25:14] "GET /socket.io/?EIO=4&transport=websocket&sid=kXpYf053oE98b7gWAABA HTTP/1.1" 200 -

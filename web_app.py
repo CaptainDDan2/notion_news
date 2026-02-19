@@ -5,7 +5,6 @@ Notion 스타일의 뉴스 대시보드
 
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from flask_cors import CORS
-from flask_socketio import SocketIO, emit, join_room, leave_room
 from database import (init_db, NewsArticle, UserPreferences, ArticleBookmark, ArticleComment, 
                      ArticleShare, AdminNews, get_articles_by_priority, 
                      get_recent_articles, search_articles, get_db_session, 
@@ -62,9 +61,6 @@ def create_app():
     # CORS 설정 (보안 강화)
     allowed_origins = os.getenv('CORS_ORIGINS', 'http://localhost:5000').split(',')
     CORS(app, origins=allowed_origins)
-    
-    # WebSocket 설정 (threading 모드 사용으로 SSL 호환성 문제 방지)
-    socketio = SocketIO(app, cors_allowed_origins=allowed_origins, async_mode='threading')
     
     # 데이터베이스 초기화
     init_db()
@@ -288,13 +284,7 @@ def create_app():
                 'success'
             )
             
-            # 높은 우선순위 기사 알림
-            for article in high_priority_articles:
-                app.socketio.emit('new_article', {'article': article}, room='news_updates')
-            
-            # 크롤링 완료 이벤트
-            app.socketio.emit('crawl_complete', {'count': new_articles_count}, room='news_updates')
-            
+            # 크롤링 완료
             return jsonify({
                 'success': True,
                 'message': f'{new_articles_count}개의 새로운 기사를 추가했습니다.',
@@ -304,7 +294,6 @@ def create_app():
             
         except Exception as e:
             logger.error(f"크롤링 API 오류: {str(e)}")
-            app.send_notification('뉴스 크롤링 중 오류가 발생했습니다.', 'error')
             return jsonify({'success': False, 'error': str(e)}), 500
 
     @app.route('/api/stats')
@@ -861,39 +850,8 @@ def create_app():
             logger.error(f'공유 통계 조회 실패: {str(e)}')
             return jsonify({'error': str(e)}), 500
 
-    # ===== 웹소켓 이벤트 핸들러 =====
-    @socketio.on('connect')
-    def handle_connect():
-        """클라이언트 연결"""
-        join_room('news_updates')
-        emit('connected', {'status': 'connected'})
-        logger.info('클라이언트가 연결되었습니다')
-    
-    @socketio.on('disconnect')
-    def handle_disconnect():
-        """클라이언트 연결 해제"""
-        leave_room('news_updates')
-        logger.info('클라이언트 연결이 해제되었습니다')
-    
-    # 실시간 알림 전송 함수
-    def send_notification(message, type='info', data=None):
-        """모든 연결된 클라이언트에게 알림 전송"""
-        try:
-            socketio.emit('notification', {
-                'message': message,
-                'type': type,
-                'data': data,
-                'timestamp': datetime.now().isoformat()
-            }, room='news_updates')
-            logger.info(f'알림 전송: {message}')
-        except Exception as e:
-            logger.error(f'알림 전송 실패: {str(e)}')
-    
-    # Flask 앱에 SocketIO 인스턴스와 알림 함수 등록
-    app.socketio = socketio
-    app.send_notification = send_notification
 
-    return app, socketio
+    return app
 
 if __name__ == '__main__':
     app = create_app()

@@ -1,16 +1,14 @@
 // 반도체 뉴스 대시보드 JavaScript
 
-// 전역 변수
+// 간역 변수
 let currentSection = 'dashboard';
 let searchTimeout;
 let isLoading = false;
-let socket = null;
 let currentArticleId = null;
 
 // DOM 로드 완료 후 초기화
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
-    initializeWebSocket();
 });
 
 // 앱 초기화
@@ -828,103 +826,6 @@ function setupSwipeGestures() {
 setTimeout(setupSwipeGestures, 100);
 
 // WebSocket 연결 및 관리
-function initializeWebSocket() {
-    try {
-        socket = io();
-        
-        socket.on('connect', function() {
-            console.log('실시간 알림 서비스에 연결되었습니다');
-            showToast('실시간 알림이 활성화되었습니다', 'success');
-        });
-        
-        socket.on('disconnect', function() {
-            console.log('실시간 알림 서비스 연결이 해제되었습니다');
-            showToast('실시간 알림 연결이 해제되었습니다', 'warning');
-        });
-        
-        socket.on('notification', function(data) {
-            handleRealTimeNotification(data);
-        });
-        
-        socket.on('new_article', function(data) {
-            handleNewArticle(data);
-        });
-        
-        socket.on('crawl_complete', function(data) {
-            handleCrawlComplete(data);
-        });
-        
-    } catch (error) {
-        console.error('WebSocket 연결 오류:', error);
-        showToast('실시간 알림 연결에 실패했습니다', 'error');
-    }
-}
-
-function handleRealTimeNotification(data) {
-    showToast(data.message, data.type);
-    
-    // 데이터가 포함된 경우 추가 처리
-    if (data.data) {
-        switch (data.type) {
-            case 'new_articles':
-                updateStats();
-                if (currentSection === 'dashboard') {
-                    setTimeout(() => location.reload(), 2000);
-                }
-                break;
-            case 'crawl_status':
-                // 크롤링 상태 업데이트 UI 처리
-                break;
-        }
-    }
-}
-
-function handleNewArticle(data) {
-    const article = data.article;
-    showToast(`새 기사: ${article.title.substring(0, 50)}...`, 'info');
-    
-    // 우선순위가 높은 기사인 경우 특별 알림
-    if (article.priority_score >= 8.0) {
-        showHighPriorityAlert(article);
-    }
-    
-    updateStats();
-}
-
-function handleCrawlComplete(data) {
-    showToast(`뉴스 업데이트 완료: ${data.count}개의 새 기사`, 'success');
-    updateStats();
-}
-
-function showHighPriorityAlert(article) {
-    // 높은 우선순위 기사에 대한 특별 알림 UI
-    const alertDiv = document.createElement('div');
-    alertDiv.className = 'priority-alert';
-    alertDiv.innerHTML = `
-        <div class="priority-alert-content">
-            <div class="priority-alert-header">
-                <i class="fas fa-exclamation-triangle"></i>
-                <span>긴급 뉴스</span>
-                <button onclick="this.parentElement.parentElement.parentElement.remove()" class="close-alert">×</button>
-            </div>
-            <h4>${article.title}</h4>
-            <p>우선순위: ${article.priority_score.toFixed(1)}/10.0</p>
-            <button onclick="showArticleDetail(${article.id}); this.parentElement.parentElement.remove();" class="view-article">
-                기사 보기
-            </button>
-        </div>
-    `;
-    
-    document.body.appendChild(alertDiv);
-    
-    // 5초 후 자동 제거
-    setTimeout(() => {
-        if (alertDiv.parentNode) {
-            alertDiv.remove();
-        }
-    }, 5000);
-}
-
 // ===== 사용자 상호작용 함수 (북마크, 댓글, 공유) =====
 
 // 북마크 버튼 업데이트
