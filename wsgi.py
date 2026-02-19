@@ -1,15 +1,26 @@
 from flask import Flask
+import sys
+import traceback
 
 app = Flask(__name__)
 
-@app.route('/')
-def home():
-    return {"status": "OK", "message": "반도체 뉴스 서비스가 실행 중입니다"}, 200
+error_message = None
 
-# 실제 앱 로드 (선택사항)
-if __name__ != '__main__':
-    try:
-        from web_app import create_app as create_real_app
-        app = create_real_app()
-    except:
-        pass
+# 실제 앱 로드 시도
+try:
+    from web_app import create_app
+    app = create_app()
+    print("✓ web_app loaded successfully", file=sys.stderr)
+except Exception as e:
+    error_message = str(e)
+    traceback.print_exc()
+    print(f"✗ Failed to load web_app: {e}", file=sys.stderr)
+    
+    @app.route('/')
+    def home():
+        return {
+            "status": "ERROR", 
+            "message": "앱 초기화 실패",
+            "error": error_message,
+            "traceback": traceback.format_exc()
+        }, 500
