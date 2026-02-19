@@ -183,26 +183,56 @@ def get_db_session():
 
 # 유틸리티 함수들
 def get_articles_by_priority(session=None, limit=10):
-    """우선순위 순으로 기사 조회"""
+    """우선순위 순으로 기사 조회 (중복 제거)"""
     if not session:
         session = database_session
-    return session.query(NewsArticle).order_by(NewsArticle.priority_score.desc()).limit(limit).all()
+    articles = session.query(NewsArticle).order_by(NewsArticle.priority_score.desc()).limit(limit * 2).all()
+    # URL 기반 중복 제거
+    seen_urls = set()
+    unique_articles = []
+    for article in articles:
+        if article.url not in seen_urls:
+            seen_urls.add(article.url)
+            unique_articles.append(article)
+            if len(unique_articles) >= limit:
+                break
+    return unique_articles
 
 def get_recent_articles(session=None, limit=20):
-    """최근 기사 조회"""
+    """최근 기사 조회 (중복 제거)"""
     if not session:
         session = database_session
-    return session.query(NewsArticle).order_by(NewsArticle.crawled_at.desc()).limit(limit).all()
+    articles = session.query(NewsArticle).order_by(NewsArticle.crawled_at.desc()).limit(limit * 2).all()
+    # URL 기반 중복 제거
+    seen_urls = set()
+    unique_articles = []
+    for article in articles:
+        if article.url not in seen_urls:
+            seen_urls.add(article.url)
+            unique_articles.append(article)
+            if len(unique_articles) >= limit:
+                break
+    return unique_articles
 
 def search_articles(query, session=None, limit=20):
-    """기사 검색"""
+    """기사 검색 (중복 제거)"""
     if not session:
         session = database_session
-    return session.query(NewsArticle).filter(
+    articles = session.query(NewsArticle).filter(
         NewsArticle.title.contains(query) | 
         NewsArticle.content.contains(query) |
         NewsArticle.summary.contains(query)
-    ).order_by(NewsArticle.priority_score.desc()).limit(limit).all()
+    ).order_by(NewsArticle.priority_score.desc()).limit(limit * 2).all()
+    # URL 기반 중복 제거
+    seen_urls = set()
+    unique_articles = []
+    for article in articles:
+        if article.url not in seen_urls:
+            seen_urls.add(article.url)
+            unique_articles.append(article)
+            if len(unique_articles) >= limit:
+                break
+    return unique_articles
 
 # 사용자 설정 관련 함수들
 def get_user_preferences(user_id="default", session=None):
