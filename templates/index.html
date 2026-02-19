@@ -211,16 +211,7 @@
                 
                 <!-- 액션 버튼 -->
                 <div class="article-actions" style="display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0;">
-                    <button id="bookmark-btn" onclick="toggleBookmark()" class="btn-bookmark">
-                        🤍 저장하기
-                    </button>
-                    <button onclick="trackShare('kakao')" class="btn-secondary" style="flex: 1; min-width: 100px;">
-                        💬 카톡 공유
-                    </button>
-                    <button onclick="trackShare('copy')" class="btn-secondary" style="flex: 1; min-width: 100px;">
-                        📋 링크 복사
-                    </button>
-                    <a id="modal-link" href="#" target="_blank" class="btn-primary">🔗 원문 보기</a>
+                    <a id="modal-link" href="#" target="_blank" class="btn-primary" style="flex: 1;">🔗 원문 보기</a>
                 </div>
                 
 
@@ -237,14 +228,6 @@
     <!-- 토스트 알림 -->
     <div id="toast" class="toast"></div>
 
-    <!-- 카카오톡 공유 SDK -->
-    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-    <script>
-        // 카카오 SDK 초기화
-        if (window.Kakao && !window.Kakao.isInitialized()) {
-            Kakao.init('KAKAO_APP_KEY'); // Render에서 환경변수로 설정
-        }
-    </script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

@@ -431,12 +431,6 @@ async function showArticleDetail(articleId) {
             document.getElementById('modal-content').textContent = article.content;
             document.getElementById('modal-link').href = article.url;
             
-            // 북마크 상태 확인 및 버튼 업데이트
-            await updateBookmarkButton(articleId);
-            
-            // 공유 통계 표시
-            await displayShareStats(articleId);
-            
             document.getElementById('article-modal').style.display = 'block';
         } else {
             showToast('기사 정보를 불러오는데 실패했습니다.', 'error');
@@ -825,65 +819,6 @@ function setupSwipeGestures() {
 // 페이지 로드 후 스와이프 제스처 설정
 setTimeout(setupSwipeGestures, 100);
 
-// WebSocket 연결 및 관리
-// ===== 사용자 상호작용 함수 (북마크, 댓글, 공유) =====
-
-// 북마크 버튼 업데이트
-async function updateBookmarkButton(articleId) {
-    try {
-        const response = await fetch(`/api/bookmarks`);
-        const data = await response.json();
-        
-        const isBookmarked = data.bookmarks && data.bookmarks.some(b => b.id === articleId);
-        const bookmarkBtn = document.getElementById('bookmark-btn');
-        
-        if (bookmarkBtn) {
-            if (isBookmarked) {
-                bookmarkBtn.classList.add('bookmarked');
-                bookmarkBtn.textContent = '❤️ 저장됨';
-            } else {
-                bookmarkBtn.classList.remove('bookmarked');
-                bookmarkBtn.textContent = '🤍 저장하기';
-            }
-        }
-    } catch (error) {
-        console.error('북마크 상태 확인 오류:', error);
-    }
-}
-
-// 북마크 토글
-async function toggleBookmark() {
-    if (!currentArticleId) return;
-    
-    try {
-        const response = await fetch(`/api/bookmarks`);
-        const data = await response.json();
-        const isBookmarked = data.bookmarks && data.bookmarks.some(b => b.id === currentArticleId);
-        
-        if (isBookmarked) {
-            // 북마크 삭제
-            await fetch(`/api/bookmark/${currentArticleId}`, { method: 'DELETE' });
-            showToast('저장이 취소되었습니다.', 'info');
-        } else {
-            // 북마크 생성
-            await fetch('/api/bookmark', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    article_id: currentArticleId,
-                    notes: ''
-                })
-            });
-            showToast('기사가 저장되었습니다.', 'success');
-        }
-        
-        await updateBookmarkButton(currentArticleId);
-    } catch (error) {
-        console.error('북마크 토글 오류:', error);
-        showToast('저장 작업에 실패했습니다.', 'error');
-    }
-}
-
 // 댓글 로드
 async function loadComments(articleId) {
     // 댓글 기능이 비활성화되었습니다
@@ -905,72 +840,6 @@ async function likeComment(commentId) {
 }
 
 // 공유 버튼
-async function trackShare(shareType) {
-    if (!currentArticleId) return;
-    
-    try {
-        // 공유 추적
-        await fetch('/api/article/share', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                article_id: currentArticleId,
-                share_type: shareType
-            })
-        });
-        
-        // 각 공유 타입별 동작
-        if (shareType === 'kakao') {
-            // 카카오톡 공유 (있으면)
-            if (window.Kakao && window.Kakao.Link) {
-                const article = document.querySelector('[data-article-id]');
-                Kakao.Link.sendDefault({
-                    objectType: 'feed',
-                    content: {
-                        title: document.getElementById('modal-title').textContent,
-                        description: document.getElementById('modal-summary').textContent,
-                        imageUrl: '',
-                        link: {
-                            mobileWebUrl: window.location.href,
-                            webUrl: window.location.href
-                        }
-                    }
-                });
-            } else {
-                // 카카오톡이 없으면 링크 복사
-                copyShareLink();
-            }
-            showToast('카카오톡에 공유했습니다.', 'success');
-        } else if (shareType === 'copy') {
-            copyShareLink();
-            showToast('링크가 복사되었습니다.', 'success');
-        } else {
-            showToast('공유가 완료되었습니다.', 'success');
-        }
-    } catch (error) {
-        console.error('공유 오류:', error);
-        showToast('공유에 실패했습니다.', 'error');
-    }
-}
-
-// 링크 복사
-function copyShareLink() {
-    const link = window.location.href;
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(link).then(() => {
-            showToast('링크가 클립보드에 복사되었습니다.', 'success');
-        });
-    } else {
-        // 구형 브라우저 대응
-        const textArea = document.createElement('textarea');
-        textArea.value = link;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-        showToast('링크가 클립보드에 복사되었습니다.', 'success');
-    }
-}
 
 // 시간 차이 계산
 function getTimeDifference(date) {
@@ -1034,25 +903,9 @@ async function submitAdminNews() {
     }
 }
 
-// 공유 통계 표시
+
+// 공유 통계 표시 (비활성화)
 async function displayShareStats(articleId) {
-    try {
-        const response = await fetch(`/api/share-stats/${articleId}`);
-        const data = await response.json();
-        
-        const statsContainer = document.getElementById('share-stats-container');
-        if (!statsContainer || !data.stats) return;
-        
-        const stats = data.stats;
-        statsContainer.innerHTML = `
-            <div style="font-size: 0.9em; color: #9b9a97;">
-                <span>📤 공유됨: ${stats.total} | 
-                       🔗 링크: ${stats.link} | 
-                       💬 카톡: ${stats.kakao} | 
-                       📋 복사: ${stats.copy}</span>
-            </div>
-        `;
-    } catch (error) {
-        console.error('공유 통계 로드 오류:', error);
-    }
+    // 공유 기능이 제거되어 비활성화됨
+    return;
 }
