@@ -36,26 +36,36 @@ class NewsAnalyzer:
             'upgrade', '업그레이드', 'expansion', '확장', 'investment', '투자'
         ]
         
-        # 반도체 기술 관련 키워드 (가중치 적용) - 반도체 공정, 소자가 핵심
+        # 반도체 기술 관련 키워드 (가중치 적용) - 반도체 공정, 소자, TSMC, 삼성, 하이닉스 최우선
         self.tech_keywords = {
-            # 핵심 반도체 공정 및 소자 키워드 (최우선)
-            '반도체': 4.5, 'semiconductor': 4.5,
-            '공정': 4.0, 'process': 3.8, 'manufacturing': 3.8,
-            '소자': 4.2, 'device': 4.0, 'chip': 3.5,
-            '파운드리': 4.0, 'foundry': 4.0,
-            'HBM': 3.8, '메모리': 3.5, 'memory': 3.5,
-            'DRAM': 3.5, 'NAND': 3.5, 'Flash': 3.2,
+            # 최상위 핵심 반도체 기업 및 공정 (최우선)
+            'TSMC': 5.0, 'tsmc': 5.0,
+            '삼성': 5.0, 'Samsung': 5.0, 'samsung': 4.8,
+            '하이닉스': 5.0, 'SK Hynix': 5.0, 'Hynix': 4.8,
             
-            # 고급 공정 노드
-            '3nm': 3.8, '2nm': 4.0, '1nm': 4.0,
-            '5nm': 3.2, '7nm': 3.0,
-            'GAA': 3.5, 'FinFET': 3.2,
+            # 최상위 반도체 공정 및 소자
+            '반도체': 5.0, 'semiconductor': 5.0,
+            '공정': 4.5, 'process': 4.3, 'manufacturing': 4.3,
+            '소자': 4.8, 'device': 4.5, 'chip': 4.2,
+            
+            # 고급 공정 노드 (2nm, 3nm 최우선)
+            '2nm': 5.0, '1nm': 5.0,
+            '3nm': 4.8, '5nm': 4.2, '7nm': 3.8,
+            'GAA': 4.2, 'FinFET': 3.8,
+            
+            # 메모리 기술
+            'HBM': 4.5, 'HBM4': 5.0, 'HBM3': 4.5,
+            '메모리': 4.0, 'memory': 4.0,
+            'DRAM': 4.0, 'NAND': 4.0, 'Flash': 3.8,
+            
+            # 파운드리
+            '파운드리': 4.5, 'foundry': 4.5,
             
             # AI 및 고급 기술
-            'AI': 3.5, '인공지능': 3.5, '머신러닝': 3.0, 'machine learning': 3.0,
-            'quantum': 3.5, '양자': 3.5, 'neuromorphic': 3.2,
-            'edge computing': 2.8, '엣지 컴퓨팅': 2.8,
-            'autonomous': 3.0, '자율주행': 3.0, 'IoT': 2.5, 'blockchain': 2.2
+            'AI': 3.8, '인공지능': 3.8, '머신러닝': 3.2, 'machine learning': 3.2,
+            'quantum': 3.8, '양자': 3.8, 'neuromorphic': 3.5,
+            'edge computing': 3.0, '엣지 컴퓨팅': 3.0,
+            'autonomous': 3.2, '자율주행': 3.2, 'IoT': 2.8, 'blockchain': 2.5
         }
 
     def _is_english_text(self, text: str) -> bool:

@@ -65,6 +65,13 @@ def create_app():
     # 데이터베이스 초기화
     init_db()
     
+    # 뉴스 우선순위 초기화 (특정 출처를 최신으로)
+    try:
+        from initialize_news_priority import initialize_news_priority
+        initialize_news_priority()
+    except Exception as e:
+        logger.warning(f"뉴스 우선순위 초기화 중 경고: {str(e)}")
+    
     # 데이터베이스가 비어있으면 샘플 데이터 자동 생성 (Render 배포 환경용)
     try:
         session = get_db_session()
