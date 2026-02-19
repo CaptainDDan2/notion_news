@@ -36,13 +36,26 @@ class NewsAnalyzer:
             'upgrade', '업그레이드', 'expansion', '확장', 'investment', '투자'
         ]
         
-        # 반도체 기술 관련 키워드 (가중치 적용)
+        # 반도체 기술 관련 키워드 (가중치 적용) - 반도체 공정, 소자가 핵심
         self.tech_keywords = {
-            'AI': 3.0, '인공지능': 3.0, '머신러닝': 2.5, 'machine learning': 2.5,
-            '3nm': 2.8, '2nm': 3.0, '5nm': 2.3, '7nm': 2.0,
-            'quantum': 3.0, '양자': 3.0, 'neuromorphic': 2.8, 
-            'edge computing': 2.5, '엣지 컴퓨팅': 2.5,
-            'autonomous': 2.7, '자율주행': 2.7, 'IoT': 2.2, 'blockchain': 2.0
+            # 핵심 반도체 공정 및 소자 키워드 (최우선)
+            '반도체': 4.5, 'semiconductor': 4.5,
+            '공정': 4.0, 'process': 3.8, 'manufacturing': 3.8,
+            '소자': 4.2, 'device': 4.0, 'chip': 3.5,
+            '파운드리': 4.0, 'foundry': 4.0,
+            'HBM': 3.8, '메모리': 3.5, 'memory': 3.5,
+            'DRAM': 3.5, 'NAND': 3.5, 'Flash': 3.2,
+            
+            # 고급 공정 노드
+            '3nm': 3.8, '2nm': 4.0, '1nm': 4.0,
+            '5nm': 3.2, '7nm': 3.0,
+            'GAA': 3.5, 'FinFET': 3.2,
+            
+            # AI 및 고급 기술
+            'AI': 3.5, '인공지능': 3.5, '머신러닝': 3.0, 'machine learning': 3.0,
+            'quantum': 3.5, '양자': 3.5, 'neuromorphic': 3.2,
+            'edge computing': 2.8, '엣지 컴퓨팅': 2.8,
+            'autonomous': 3.0, '자율주행': 3.0, 'IoT': 2.5, 'blockchain': 2.2
         }
 
     def _is_english_text(self, text: str) -> bool:
@@ -374,9 +387,23 @@ class NewsAnalyzer:
             time_score = self._calculate_time_score(published_date)
             priority_score += time_score
             
-            # 5. 기업 뉴스룸 추가 보너스 (0-0.5점)
-            if any(keyword in source for keyword in ['Newsroom', 'newsroom', 'Press Release', 'press release']):
-                priority_score += 0.5
+            # 5. 기업 뉴스룸 기술 내용 추가 보너스 (0-1.5점)
+            is_newsroom = any(keyword in source for keyword in ['Newsroom', 'newsroom', 'Press Release', 'press release'])
+            if is_newsroom:
+                priority_score += 0.5  # 뉴스룸 기본 보너스
+                
+                # 뉴스룸의 반도체 기술 내용 검사
+                combined_text = (title + ' ' + content).lower()
+                tech_keywords_found = 0
+                for keyword in self.tech_keywords.keys():
+                    if keyword.lower() in combined_text:
+                        tech_keywords_found += 1
+                
+                # 반도체 기술 키워드가 많을수록 추가 보너스 (최대 +1.0)
+                if tech_keywords_found > 0:
+                    tech_bonus = min(tech_keywords_found * 0.25, 1.0)
+                    priority_score += tech_bonus
+                    logger.debug(f"기술 키워드 {tech_keywords_found}개 발견 -> +{tech_bonus:.2f} 보너스")
             
             # 최종 점수 정규화 (0-10)
             final_score = min(priority_score, 10.0)
