@@ -7,19 +7,35 @@ from flask import Flask, render_template, jsonify, request, redirect, url_for
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from database import (init_db, NewsArticle, UserPreferences, ArticleBookmark, ArticleComment, 
-                     ArticleShare, AdminNews, db, get_articles_by_priority, 
+                     ArticleShare, AdminNews, get_articles_by_priority, 
                      get_recent_articles, search_articles, get_db_session, 
                      get_user_preferences, update_user_preferences, get_filtered_articles,
                      add_bookmark, remove_bookmark, get_bookmarked_articles, is_bookmarked, update_bookmark_notes)
-from news_crawler import NewsCrawler
-from news_analyzer import NewsAnalyzer
 from datetime import datetime, timedelta
 import logging
 import json
 import threading
 import os
 from dotenv import load_dotenv
-from captain_security import init_security, security_required
+
+# Optional imports
+try:
+    from news_crawler import NewsCrawler
+except ImportError:
+    NewsCrawler = None
+    
+try:
+    from news_analyzer import NewsAnalyzer
+except ImportError:
+    NewsAnalyzer = None
+    
+try:
+    from captain_security import init_security, security_required
+except ImportError:
+    def init_security(app):
+        pass
+    def security_required(f):
+        return f
 
 # 환경 변수 로드
 load_dotenv()
@@ -172,7 +188,7 @@ def create_app():
             logger.error(f"기사 API 오류: {str(e)}")
             return jsonify({'success': False, 'error': str(e)}), 500
 
-    @app.route('/api/article/<int:article_id>')
+    @app.route('/api/article/<int:article_id>', methods=['GET'])
     def api_article_detail(article_id):
         """기사 상세 정보 API"""
         try:
@@ -600,9 +616,11 @@ def create_app():
             article_id = data.get('article_id')
             notes = data.get('notes', '')
             
+            session = get_db_session()
             # 기존 북마크 확인
-            existing = ArticleBookmark.query.filter_by(article_id=article_id).first()
+            existing = session.query(ArticleBookmark).filter_by(article_id=article_id).first()
             if existing:
+                session.close()
                 return jsonify({'error': '이미 북마크된 아티클입니다'}), 409
             
             bookmark = ArticleBookmark(
@@ -610,10 +628,12 @@ def create_app():
                 notes=notes,
                 created_at=datetime.now()
             )
-            db.session.add(bookmark)
-            db.session.commit()
+            session.add(bookmark)
+            session.commit()
             
-            return jsonify({'success': True, 'bookmark': bookmark.to_dict()}), 201
+            bookmark_dict = bookmark.to_dict()
+            session.close()
+            return jsonify({'success': True, 'bookmark': bookmark_dict}), 201
         except Exception as e:
             logger.error(f'북마크 생성 실패: {str(e)}')
             return jsonify({'error': str(e)}), 500
@@ -622,12 +642,15 @@ def create_app():
     def delete_bookmark(article_id):
         """북마크 삭제"""
         try:
-            bookmark = ArticleBookmark.query.filter_by(article_id=article_id).first()
+            session = get_db_session()
+            bookmark = session.query(ArticleBookmark).filter_by(article_id=article_id).first()
             if not bookmark:
+                session.close()
                 return jsonify({'error': '북마크를 찾을 수 없습니다'}), 404
             
-            db.session.delete(bookmark)
-            db.session.commit()
+            session.delete(bookmark)
+            session.commit()
+            session.close()
             
             return jsonify({'success': True}), 200
         except Exception as e:
@@ -638,17 +661,19 @@ def create_app():
     def get_bookmarks():
         """저장된 북마크 조회"""
         try:
-            bookmarks = ArticleBookmark.query.all()
+            session = get_db_session()
+            bookmarks = session.query(ArticleBookmark).all()
             articles = []
             
             for bookmark in bookmarks:
-                article = NewsArticle.query.get(bookmark.article_id)
+                article = session.query(NewsArticle).get(bookmark.article_id)
                 if article:
                     article_data = article.to_dict()
                     article_data['bookmark_id'] = bookmark.id
                     article_data['bookmark_notes'] = bookmark.notes
                     articles.append(article_data)
             
+            session.close()
             return jsonify({
                 'success': True,
                 'count': len(articles),
@@ -670,6 +695,7 @@ def create_app():
             if not comment_text or len(comment_text.strip()) == 0:
                 return jsonify({'error': '댓글 내용이 비어있습니다'}), 400
             
+            session = get_db_session()
             comment = ArticleComment(
                 article_id=article_id,
                 nickname=nickname,
@@ -677,10 +703,12 @@ def create_app():
                 likes=0,
                 created_at=datetime.now()
             )
-            db.session.add(comment)
-            db.session.commit()
+            session.add(comment)
+            session.commit()
             
-            return jsonify({'success': True, 'comment': comment.to_dict()}), 201
+            comment_dict = comment.to_dict()
+            session.close()
+            return jsonify({'success': True, 'comment': comment_dict}), 201
         except Exception as e:
             logger.error(f'댓글 작성 실패: {str(e)}')
             return jsonify({'error': str(e)}), 500
@@ -689,13 +717,16 @@ def create_app():
     def get_comments(article_id):
         """아티클 댓글 조회"""
         try:
-            comments = ArticleComment.query.filter_by(article_id=article_id).order_by(ArticleComment.created_at.desc()).all()
+            session = get_db_session()
+            comments = session.query(ArticleComment).filter_by(article_id=article_id).order_by(ArticleComment.created_at.desc()).all()
+            comments_data = [comment.to_dict() for comment in comments]
+            session.close()
             
             return jsonify({
                 'success': True,
                 'article_id': article_id,
-                'count': len(comments),
-                'comments': [comment.to_dict() for comment in comments]
+                'count': len(comments_data),
+                'comments': comments_data
             }), 200
         except Exception as e:
             logger.error(f'댓글 조회 실패: {str(e)}')
@@ -705,14 +736,18 @@ def create_app():
     def like_comment(comment_id):
         """댓글 좋아요 증가"""
         try:
-            comment = ArticleComment.query.get(comment_id)
+            session = get_db_session()
+            comment = session.query(ArticleComment).get(comment_id)
             if not comment:
+                session.close()
                 return jsonify({'error': '댓글을 찾을 수 없습니다'}), 404
             
             comment.likes += 1
-            db.session.commit()
+            session.commit()
+            likes = comment.likes
+            session.close()
             
-            return jsonify({'success': True, 'likes': comment.likes}), 200
+            return jsonify({'success': True, 'likes': likes}), 200
         except Exception as e:
             logger.error(f'댓글 좋아요 실패: {str(e)}')
             return jsonify({'error': str(e)}), 500
@@ -729,15 +764,18 @@ def create_app():
             if share_type not in ['kakao', 'link', 'copy']:
                 share_type = 'link'
             
+            session = get_db_session()
             share = ArticleShare(
                 article_id=article_id,
                 share_type=share_type,
                 created_at=datetime.now()
             )
-            db.session.add(share)
-            db.session.commit()
+            session.add(share)
+            session.commit()
             
-            return jsonify({'success': True, 'share': share.to_dict()}), 201
+            share_dict = share.to_dict()
+            session.close()
+            return jsonify({'success': True, 'share': share_dict}), 201
         except Exception as e:
             logger.error(f'공유 추적 실패: {str(e)}')
             return jsonify({'error': str(e)}), 500
@@ -758,6 +796,7 @@ def create_app():
             analyzer = NewsAnalyzer()
             summary = analyzer.analyze(title, content)
             
+            session = get_db_session()
             # 관리자 뉴스 저장
             admin_news = AdminNews(
                 title=title,
@@ -767,7 +806,7 @@ def create_app():
                 priority=8.0,  # 관리자 뉴스는 높은 우선순위
                 created_at=datetime.now()
             )
-            db.session.add(admin_news)
+            session.add(admin_news)
             
             # NewsArticle에도 저장 (일반 뉴스 피드에서 보이도록)
             news_article = NewsArticle(
@@ -776,12 +815,16 @@ def create_app():
                 summary=summary,
                 source=source,
                 priority_score=8.0,
-                crawled_at=datetime.now()
+                crawled_at=datetime.now(),
+                url=f'admin-news-{int(datetime.now().timestamp())}',
+                published_date=datetime.now()
             )
-            db.session.add(news_article)
-            db.session.commit()
+            session.add(news_article)
+            session.commit()
             
-            return jsonify({'success': True, 'admin_news': admin_news.to_dict()}), 201
+            admin_news_dict = admin_news.to_dict()
+            session.close()
+            return jsonify({'success': True, 'admin_news': admin_news_dict}), 201
         except Exception as e:
             logger.error(f'관리자 뉴스 추가 실패: {str(e)}')
             return jsonify({'error': str(e)}), 500
@@ -790,7 +833,8 @@ def create_app():
     def get_share_stats(article_id):
         """아티클 공유 통계 조회"""
         try:
-            shares = ArticleShare.query.filter_by(article_id=article_id).all()
+            session = get_db_session()
+            shares = session.query(ArticleShare).filter_by(article_id=article_id).all()
             
             # 공유 타입별로 집계
             stats = {
@@ -800,6 +844,7 @@ def create_app():
                 'copy': len([s for s in shares if s.share_type == 'copy'])
             }
             
+            session.close()
             return jsonify({
                 'success': True,
                 'article_id': article_id,
