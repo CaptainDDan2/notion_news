@@ -149,8 +149,8 @@ class NewsArticle(Base):
     url = Column(String, unique=True, index=True, nullable=False)
     source = Column(String, index=True, nullable=False)
     published_date = Column(DateTime)
-    crawled_at = Column(DateTime, default=datetime.utcnow)
-    priority_score = Column(Float, default=0.0)
+    crawled_at = Column(DateTime, default=datetime.utcnow, index=True)  # 성능 개선용 인덱스
+    priority_score = Column(Float, default=0.0, index=True)  # 성능 개선용 인덱스
     category = Column(String, default="semiconductor")
     
     def to_dict(self):

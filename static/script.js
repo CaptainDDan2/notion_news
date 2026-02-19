@@ -161,7 +161,7 @@ async function loadPriorityArticles() {
     showLoading();
     
     try {
-        const response = await fetch('/api/articles?sort=priority&limit=20');
+        const response = await fetch('/api/articles?sort=priority&limit=10');
         const data = await response.json();
         
         if (data.success) {
@@ -182,7 +182,7 @@ async function loadRecentArticles() {
     showLoading();
     
     try {
-        const response = await fetch('/api/articles?sort=recent&limit=20');
+        const response = await fetch('/api/articles?sort=recent&limit=10');
         const data = await response.json();
         
         if (data.success) {
@@ -203,7 +203,7 @@ async function loadPersonalizedArticles() {
     showLoading();
     
     try {
-        const response = await fetch('/api/articles/personalized?sort=priority&limit=20');
+        const response = await fetch('/api/articles/personalized?sort=priority&limit=10');
         const data = await response.json();
         
         if (data.success) {
@@ -435,9 +435,6 @@ async function showArticleDetail(articleId) {
             
             // 북마크 상태 확인 및 버튼 업데이트
             await updateBookmarkButton(articleId);
-            
-            // 댓글 로드
-            await loadComments(articleId);
             
             // 공유 통계 표시
             await displayShareStats(articleId);
@@ -988,93 +985,22 @@ async function toggleBookmark() {
 
 // 댓글 로드
 async function loadComments(articleId) {
-    try {
-        const response = await fetch(`/api/comments/${articleId}`);
-        const data = await response.json();
-        
-        const commentsContainer = document.getElementById('comments-container');
-        if (!commentsContainer) return;
-        
-        let html = '<h4 style="margin-bottom: 16px;">💬 댓글</h4>';
-        
-        if (data.comments && data.comments.length > 0) {
-            html += '<div class="comments-list">';
-            data.comments.forEach(comment => {
-                const timeDiff = getTimeDifference(new Date(comment.created_at));
-                html += `
-                    <div class="comment-item" style="padding: 12px; margin-bottom: 8px; background-color: #f0f0f0; border-radius: 4px; border-left: 3px solid #2383e2;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                            <strong>${escapeHtml(comment.nickname)}</strong>
-                            <span style="font-size: 0.85em; color: #9b9a97;">${timeDiff}</span>
-                        </div>
-                        <p style="margin: 0 0 8px 0; color: #313131;">${escapeHtml(comment.comment_text)}</p>
-                        <button onclick="likeComment(${comment.id})" class="like-btn" style="font-size: 0.9em; padding: 4px 8px; background: none; border: none; color: #2383e2; cursor: pointer;">
-                            👍 ${comment.likes}
-                        </button>
-                    </div>
-                `;
-            });
-            html += '</div>';
-        } else {
-            html += '<p style="color: #9b9a97;">아직 댓글이 없습니다.</p>';
-        }
-        
-        commentsContainer.innerHTML = html;
-    } catch (error) {
-        console.error('댓글 로드 오류:', error);
-    }
+    // 댓글 기능이 비활성화되었습니다
+    return;
 }
 
 // 댓글 작성
 async function submitComment() {
-    const commentText = document.getElementById('comment-input').value.trim();
-    const nickname = document.getElementById('nickname-input').value.trim() || '익명의 독자';
-    
-    if (!commentText) {
-        showToast('댓글을 입력해주세요.', 'info');
-        return;
-    }
-    
-    if (!currentArticleId) return;
-    
-    try {
-        const response = await fetch('/api/comment', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                article_id: currentArticleId,
-                comment_text: commentText,
-                nickname: nickname
-            })
-        });
-        
-        if (response.ok) {
-            document.getElementById('comment-input').value = '';
-            document.getElementById('nickname-input').value = '';
-            showToast('댓글이 작성되었습니다.', 'success');
-            await loadComments(currentArticleId);
-        } else {
-            showToast('댓글 작성에 실패했습니다.', 'error');
-        }
-    } catch (error) {
-        console.error('댓글 작성 오류:', error);
-        showToast('네트워크 오류가 발생했습니다.', 'error');
-    }
+    // 댓글 기능이 제거되었습니다
+    showToast('댓글 기능은 현재 비활성화되어 있습니다.', 'info');
+    return;
 }
 
 // 댓글 좋아요
 async function likeComment(commentId) {
-    try {
-        const response = await fetch(`/api/comment/${commentId}/like`, { method: 'POST' });
-        
-        if (response.ok) {
-            if (currentArticleId) {
-                await loadComments(currentArticleId);
-            }
-        }
-    } catch (error) {
-        console.error('댓글 좋아요 오류:', error);
-    }
+    // 댓글 기능 비활성화됨
+    showToast('댓글 기능은 현재 비활성화되어 있습니다.', 'info');
+    return;
 }
 
 // 공유 버튼

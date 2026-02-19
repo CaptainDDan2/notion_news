@@ -1474,3 +1474,240 @@ jinja2.exceptions.TemplateNotFound: 500.html
 2026-02-18 23:56:25,036 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:56:25] "GET /socket.io/?EIO=4&transport=polling&t=PnnG9YL&sid=eEOywOFvEFyGDHfxAAAw HTTP/1.1" 200 -
 2026-02-18 23:56:27,020 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:56:27] "GET /api/article/1 HTTP/1.1" 200 -
 2026-02-18 23:56:27,298 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 23:56:27] "GET /api/bookmarks/1/check?user_id=default HTTP/1.1" 200 -
+2026-02-19 00:05:32,921 - web_app - INFO - Å¬¶óÀÌ¾ðÆ® ¿¬°áÀÌ ÇØÁ¦µÇ¾ú½À´Ï´Ù
+2026-02-19 00:05:32,921 - web_app - INFO - Å¬¶óÀÌ¾ðÆ® ¿¬°áÀÌ ÇØÁ¦µÇ¾ú½À´Ï´Ù
+2026-02-19 00:05:32,928 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 00:05:32] "GET /socket.io/?EIO=4&transport=websocket&sid=eEOywOFvEFyGDHfxAAAw HTTP/1.1" 200 -
+2026-02-19 00:05:32,935 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 00:05:32] "GET /socket.io/?EIO=4&transport=websocket&sid=VlYufgnuZxT6DDHBAAAu HTTP/1.1" 200 -
+2026-02-19 00:41:18,513 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 00:41:18] "GET /socket.io/?EIO=4&transport=polling&t=PnnQR64 HTTP/1.1" 200 -
+2026-02-19 00:41:18,895 - web_app - INFO - Å¬¶óÀÌ¾ðÆ®°¡ ¿¬°áµÇ¾ú½À´Ï´Ù
+2026-02-19 00:41:18,901 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 00:41:18] "POST /socket.io/?EIO=4&transport=polling&t=PnnQRCy&sid=d5yJUKjLFAWJzr1uAAAy HTTP/1.1" 200 -
+2026-02-19 00:41:18,904 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 00:41:18] "GET /socket.io/?EIO=4&transport=polling&t=PnnQRC-&sid=d5yJUKjLFAWJzr1uAAAy HTTP/1.1" 200 -
+2026-02-19 00:41:19,928 - web_app - INFO - Å¬¶óÀÌ¾ðÆ® ¿¬°áÀÌ ÇØÁ¦µÇ¾ú½À´Ï´Ù
+2026-02-19 00:41:19,965 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 00:41:19] "GET /socket.io/?EIO=4&transport=websocket&sid=d5yJUKjLFAWJzr1uAAAy HTTP/1.1" 200 -
+2026-02-19 14:00:28,151 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:00:28] "GET /socket.io/?EIO=4&transport=polling&t=PnqHKiD HTTP/1.1" 200 -
+2026-02-19 14:00:28,392 - web_app - INFO - Å¬¶óÀÌ¾ðÆ®°¡ ¿¬°áµÇ¾ú½À´Ï´Ù
+2026-02-19 14:00:28,393 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:00:28] "POST /socket.io/?EIO=4&transport=polling&t=PnqHLgL&sid=KkdcZyMXibr6DsFOAAA0 HTTP/1.1" 200 -
+2026-02-19 14:00:28,502 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:00:28] "GET /socket.io/?EIO=4&transport=polling&t=PnqHLgM&sid=KkdcZyMXibr6DsFOAAA0 HTTP/1.1" 200 -
+2026-02-19 14:00:28,520 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:00:28] "GET /socket.io/?EIO=4&transport=polling&t=PnqHLlZ&sid=KkdcZyMXibr6DsFOAAA0 HTTP/1.1" 200 -
+2026-02-19 14:00:39,463 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:00:39] "GET /socket.io/?EIO=4&transport=polling&t=PnqHOLi HTTP/1.1" 200 -
+2026-02-19 14:00:39,710 - web_app - INFO - Å¬¶óÀÌ¾ðÆ®°¡ ¿¬°áµÇ¾ú½À´Ï´Ù
+2026-02-19 14:00:39,710 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:00:39] "POST /socket.io/?EIO=4&transport=polling&t=PnqHOQk&sid=1C4BzZEBhIgSFNVUAAA2 HTTP/1.1" 200 -
+2026-02-19 14:00:39,773 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:00:39] "GET /socket.io/?EIO=4&transport=polling&t=PnqHOQl&sid=1C4BzZEBhIgSFNVUAAA2 HTTP/1.1" 200 -
+2026-02-19 14:00:42,671 - web_app - INFO - ¾Ë¸² Àü¼Û: ´º½º Å©·Ñ¸µÀ» ½ÃÀÛÇÕ´Ï´Ù...
+2026-02-19 14:00:42,685 - news_crawler - INFO - ¹ÝµµÃ¼ ´º½º Å©·Ñ¸µ ½ÃÀÛ...
+2026-02-19 14:00:42,685 - news_crawler - INFO - EE Times¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:00:59,629 - news_crawler - ERROR - EE Times Å©·Ñ¸µ ½ÇÆÐ: HTTPSConnectionPool(host='www.eetimes.com', port=443): Read timed out. (read timeout=15)
+2026-02-19 14:01:01,633 - news_crawler - INFO - ÀüÀÚ½Å¹®¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:01:03,458 - news_crawler - INFO - ÀüÀÚ½Å¹®¿¡¼­ 0°³ ±â»ç ¼öÁý ¿Ï·á
+2026-02-19 14:01:05,469 - news_crawler - INFO - Semiconductor Engineering¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:01:09,249 - news_crawler - INFO - Semiconductor Engineering¿¡¼­ 0°³ ±â»ç ¼öÁý ¿Ï·á
+2026-02-19 14:01:11,265 - news_crawler - INFO - AnandTech¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:01:15,466 - news_crawler - INFO - AnandTech¿¡¼­ 0°³ ±â»ç ¼öÁý ¿Ï·á
+2026-02-19 14:01:17,474 - news_crawler - INFO - Tom's Hardware¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:01:22,968 - news_crawler - ERROR - Tom's Hardware Å©·Ñ¸µ ½ÇÆÐ: 404 Client Error: Not Found for url: https://www.tomshardware.com/news/tag/semiconductors
+2026-02-19 14:01:24,975 - news_crawler - INFO - µðÁöÅÐÅ¸ÀÓ½º¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:01:26,319 - news_crawler - ERROR - µðÁöÅÐÅ¸ÀÓ½º Å©·Ñ¸µ ½ÇÆÐ: 404 Client Error: Not Found for url: https://www.dt.co.kr:443/contents.html?article_no=2021020302109976601002
+2026-02-19 14:01:28,326 - news_crawler - INFO - TechCrunch¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:01:30,815 - news_crawler - INFO - TechCrunch¿¡¼­ 0°³ ±â»ç ¼öÁý ¿Ï·á
+2026-02-19 14:01:32,824 - news_crawler - INFO - IEEE Spectrum¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:01:34,830 - news_crawler - INFO - IEEE Spectrum¿¡¼­ 0°³ ±â»ç ¼öÁý ¿Ï·á
+2026-02-19 14:01:36,831 - news_crawler - INFO - The Register¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:01:38,525 - news_crawler - ERROR - The Register Å©·Ñ¸µ ½ÇÆÐ: 404 Client Error: Not Found for url: https://www.theregister.com/hardware/semiconductors/
+2026-02-19 14:01:39,415 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:01:39] "GET /api/article/1 HTTP/1.1" 200 -
+2026-02-19 14:01:39,730 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:01:39] "GET /api/bookmarks/1/check?user_id=default HTTP/1.1" 200 -
+2026-02-19 14:01:40,526 - news_crawler - INFO - Nikkei Asia¿¡¼­ ´º½º ¼öÁý Áß...
+2026-02-19 14:01:43,947 - news_crawler - INFO - Nikkei Asia¿¡¼­ 0°³ ±â»ç ¼öÁý ¿Ï·á
+2026-02-19 14:01:45,959 - news_crawler - INFO - ÃÑ 0°³ÀÇ °íÀ¯ ±â»ç ¼öÁý ¿Ï·á
+2026-02-19 14:01:45,959 - web_app - INFO - ¾Ë¸² Àü¼Û: 0°³ÀÇ »õ·Î¿î ±â»ç¸¦ Ãß°¡Çß½À´Ï´Ù.
+2026-02-19 14:01:45,984 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:01:45] "POST /api/crawl HTTP/1.1" 200 -
+2026-02-19 14:01:46,287 - web_app - ERROR - Åë°è API ¿À·ù: 'int' object has no attribute 'label'
+2026-02-19 14:01:46,288 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:01:46] "[35m[1mGET /api/stats HTTP/1.1[0m" 500 -
+2026-02-19 14:01:46,289 - web_app - ERROR - Åë°è API ¿À·ù: 'int' object has no attribute 'label'
+2026-02-19 14:01:46,291 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:01:46] "[35m[1mGET /api/stats HTTP/1.1[0m" 500 -
+2026-02-19 14:01:46,602 - web_app - ERROR - Åë°è API ¿À·ù: 'int' object has no attribute 'label'
+2026-02-19 14:01:46,603 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:01:46] "[35m[1mGET /api/stats HTTP/1.1[0m" 500 -
+2026-02-19 14:01:47,009 - web_app - INFO - Å¬¶óÀÌ¾ðÆ® ¿¬°áÀÌ ÇØÁ¦µÇ¾ú½À´Ï´Ù
+2026-02-19 14:01:47,010 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:01:47] "GET /socket.io/?EIO=4&transport=websocket&sid=1C4BzZEBhIgSFNVUAAA2 HTTP/1.1" 200 -
+2026-02-19 14:01:47,026 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:01:47] "GET / HTTP/1.1" 200 -
+2026-02-19 14:01:47,382 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:01:47] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-02-19 14:01:47,382 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:01:47] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-02-19 14:01:47,728 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:01:47] "GET /socket.io/?EIO=4&transport=polling&t=PnqHf0X HTTP/1.1" 200 -
+2026-02-19 14:01:47,731 - web_app - ERROR - Åë°è API ¿À·ù: 'int' object has no attribute 'label'
+2026-02-19 14:01:47,734 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:01:47] "[35m[1mGET /api/stats HTTP/1.1[0m" 500 -
+2026-02-19 14:01:47,984 - web_app - INFO - Å¬¶óÀÌ¾ðÆ®°¡ ¿¬°áµÇ¾ú½À´Ï´Ù
+2026-02-19 14:01:47,985 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:01:47] "POST /socket.io/?EIO=4&transport=polling&t=PnqHf95&sid=GTjWgnvsnRzWB1kCAAA4 HTTP/1.1" 200 -
+2026-02-19 14:01:48,281 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:01:48] "GET /socket.io/?EIO=4&transport=polling&t=PnqHf96&sid=GTjWgnvsnRzWB1kCAAA4 HTTP/1.1" 200 -
+2026-02-19 14:01:48,286 - web_app - ERROR - Exception on /favicon.ico [GET]
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\werkzeug\routing\map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1341, in handle_user_exception
+    return self.handle_http_exception(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1281, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 540, in not_found
+    'success': True,
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 404.html
+2026-02-19 14:01:48,289 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:01:48] "GET /socket.io/?EIO=4&transport=polling&t=PnqHfE0&sid=GTjWgnvsnRzWB1kCAAA4 HTTP/1.1" 200 -
+2026-02-19 14:01:48,292 - web_app - ERROR - ¼­¹ö ³»ºÎ ¿À·ù: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2026-02-19 14:01:48,293 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:01:48] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2026-02-19 14:01:48,300 - werkzeug - ERROR - Error on request:
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "C:\Python\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\werkzeug\routing\map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1341, in handle_user_exception
+    return self.handle_http_exception(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1281, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 540, in not_found
+    'success': True,
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 404.html
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python\Lib\site-packages\werkzeug\serving.py", line 370, in run_wsgi
+    execute(self.server.app)
+  File "C:\Python\Lib\site-packages\werkzeug\serving.py", line 331, in execute
+    application_iter = app(environ, start_response)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2213, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_socketio\__init__.py", line 43, in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\engineio\middleware.py", line 74, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 2193, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\app.py", line 1399, in handle_exception
+    server_error = self.ensure_sync(handler)(server_error)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Copilot_Project\notion_news\web_app.py", line 546, in internal_error
+    return jsonify({'success': False, 'error': str(e)}), 500
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python\Lib\site-packages\flask\templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: 500.html
+2026-02-19 14:05:56,715 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:05:56] "GET /api/article/1 HTTP/1.1" 200 -
+2026-02-19 14:05:56,980 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:05:56] "GET /api/bookmarks/1/check?user_id=default HTTP/1.1" 200 -
+2026-02-19 14:12:25,519 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:12:25] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-02-19 14:12:27,979 - web_app - INFO - Å¬¶óÀÌ¾ðÆ® ¿¬°áÀÌ ÇØÁ¦µÇ¾ú½À´Ï´Ù
+2026-02-19 14:12:27,979 - werkzeug - INFO - 127.0.0.1 - - [19/Feb/2026 14:12:27] "GET /socket.io/?EIO=4&transport=websocket&sid=KkdcZyMXibr6DsFOAAA0 HTTP/1.1" 200 -

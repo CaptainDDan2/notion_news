@@ -103,10 +103,10 @@ def create_app():
         try:
             session = get_db_session()
             
-            # 우선순위 높은 기사들
-            priority_articles = get_articles_by_priority(session, limit=8)
+            # 우선순위 높은 기사들 (성능: 초기 로드 줄이기)
+            priority_articles = get_articles_by_priority(session, limit=4)
             # 최근 기사들  
-            recent_articles = get_recent_articles(session, limit=12)
+            recent_articles = get_recent_articles(session, limit=6)
             
             # 통계 정보
             total_articles = session.query(NewsArticle).count()

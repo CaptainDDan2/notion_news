@@ -1,0 +1,69 @@
+# Render 배포 설정 파일
+# https://render.com에 푸시하면 자동 배포됨
+
+services:
+  - type: web
+    name: semiconductor-news
+    env: python
+    plan: free  # 무료 플랜
+    buildCommand: pip install --upgrade -r requirements.txt
+    startCommand: gunicorn --workers=1 --worker-class=sync --timeout=30 --bind=0.0.0.0:$PORT wsgi:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
+      - key: FLASK_ENV
+        value: production
+      - key: WORKERS
+        value: 1
+    autoDeploy: true
+    region: oregon  # 지연 최소화 지역 선택
+    
+  - type: background-worker
+    name: news-crawler
+    env: python
+    plan: free
+    buildCommand: pip install --upgrade -r requirements.txt
+    startCommand: |
+      python -c "
+      from news_crawler import NewsCrawler
+      from apscheduler.schedulers.background import BackgroundScheduler
+      import logging
+      
+      logging.basicConfig(level=logging.INFO)
+      logger = logging.getLogger(__name__)
+      
+      crawler = NewsCrawler()
+      scheduler = BackgroundScheduler()
+      
+      # 매 6시간마다 크롤링
+      scheduler.add_job(crawler.crawl_all_sources, 'interval', hours=6)
+      # 매주 월요일 정리
+      scheduler.add_job(crawler.cleanup_old_news, 'cron', day_of_week=0, hour=2)
+      
+      scheduler.start()
+      logger.info('뉴스 크롤러 스케줄러 시작')
+      
+      # 무한 유지
+      try:
+          while True:
+              pass
+      except KeyboardInterrupt:
+          scheduler.shutdown()
+      "
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
+      - key: FLASK_ENV
+        value: production
+    autoDeploy: true
+
+# 무료 플랜의 한계:
+# - 매월 750시간 무료 (충분함)
+# - 15분 이상 요청이 없으면 절전 모드
+# - 동시 연결 제한 있음
+# 해결책: 헬스체크로 절전 방지
+
+databases:
+  - name: news-db
+    plan: free
+    postgreSQL: true  # SQLite 대신 PostgreSQL 무료 사용 가능
