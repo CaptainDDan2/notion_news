@@ -34,8 +34,15 @@ try:
 except ImportError:
     def init_security(app):
         pass
-    def security_required(f):
-        return f
+    def security_required(*args, **kwargs):
+        """Fallback decorator that does nothing"""
+        def decorator(f):
+            return f
+        # @security_required 형태로 직접 사용
+        if args and callable(args[0]):
+            return args[0]
+        # @security_required('api') 형태로 사용
+        return decorator
 
 # 환경 변수 로드
 load_dotenv()
