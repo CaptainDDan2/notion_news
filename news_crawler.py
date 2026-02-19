@@ -11,6 +11,8 @@ import re
 import logging
 from urllib.parse import urljoin, urlparse
 from typing import List, Dict
+from html import unescape
+import xml.etree.ElementTree as ET
 import random
 
 logger = logging.getLogger(__name__)
@@ -23,6 +25,7 @@ class NewsCrawler:
         }
         self.session = requests.Session()
         self.session.headers.update(self.headers)
+        self.max_per_source = 20
         
         # 반도체 관련 뉴스 사이트 목록
         self.news_sources = [
@@ -38,13 +41,55 @@ class NewsCrawler:
             },
             {
                 'name': '전자신문',
-                'url': 'http://www.etnews.com/news/device_tech_list.html',
-                'selector': {
-                    'articles': '.article_list li',
-                    'title': 'a .tit',
-                    'link': 'a',
-                    'content': '.lead'
-                }
+                'list_urls': [
+                    'https://www.etnews.com/news/section.html?id1=06',
+                    'https://www.etnews.com/news/section.html?id1=03',
+                    'https://www.etnews.com/news/section.html?id1=04'
+                ],
+                'link_pattern': 'https://www.etnews.com/',
+                'link_regex': r'https://www\.etnews\.com/\d{11,}'
+            },
+            {
+                'name': 'TheElec',
+                'list_urls': [
+                    'https://www.thelec.net/news/articleList.html?sc_section_code=S1N3&view_type=sm',
+                    'https://www.thelec.net/news/articleList.html?sc_section_code=S1N1&view_type=sm'
+                ],
+                'link_pattern': 'https://www.thelec.net/news/articleView.html?idxno='
+            },
+            {
+                'name': '서울경제',
+                'list_urls': [
+                    'https://www.sedaily.com/business/it',
+                    'https://www.sedaily.com/business/corporation'
+                ],
+                'link_pattern': 'https://www.sedaily.com/article/',
+                'link_regex': r'https://www\.sedaily\.com/article/\d+'
+            },
+            {
+                'name': 'ZDNet Korea',
+                'list_urls': [
+                    'https://zdnet.co.kr/news/?lstcode=0100&page=1',
+                    'https://zdnet.co.kr/news/?lstcode=0120&page=1'
+                ],
+                'link_pattern': 'https://zdnet.co.kr/view/?no='
+            },
+            {
+                'name': '머니투데이',
+                'list_urls': [
+                    'https://www.mt.co.kr/tech',
+                    'https://www.mt.co.kr/industry'
+                ],
+                'link_pattern': 'https://www.mt.co.kr/',
+                'link_regex': r'https://www\.mt\.co\.kr/(tech|industry)/\d{4}/\d{2}/\d{2}/\d+'
+            },
+            {
+                'name': '블로터',
+                'list_urls': [
+                    'https://www.bloter.net/news/articleList.html?sc_section_code=S1N4&view_type=sm',
+                    'https://www.bloter.net/news/articleList.html?sc_section_code=S1N20&view_type=sm'
+                ],
+                'link_pattern': 'https://www.bloter.net/news/articleView.html?idxno='
             },
             {
                 'name': 'Semiconductor Engineering',
@@ -205,8 +250,191 @@ class NewsCrawler:
         except:
             return datetime.now()
 
+    def _fetch_rss_content(self, rss_urls: List[str]) -> str:
+        """RSS URL 목록에서 첫 번째로 성공하는 RSS 내용을 가져오기"""
+        for rss_url in rss_urls:
+            try:
+                response = self.session.get(rss_url, timeout=15)
+                response.raise_for_status()
+                return response.text
+            except Exception as e:
+                logger.warning(f"RSS 요청 실패: {rss_url} ({str(e)})")
+                continue
+        return ""
+
+    def _extract_rss_items(self, xml_text: str) -> List[Dict]:
+        """RSS/Atom XML에서 기사 목록 추출"""
+        items = []
+        try:
+            root = ET.fromstring(xml_text)
+        except ET.ParseError as e:
+            logger.error(f"RSS XML 파싱 실패: {str(e)}")
+            return items
+
+        # RSS 2.0 형태
+        channel = root.find('channel')
+        if channel is not None:
+            for item in channel.findall('item'):
+                title = item.findtext('title', '').strip()
+                link = item.findtext('link', '').strip()
+                description = item.findtext('description', '').strip()
+                pub_date = item.findtext('pubDate', '').strip()
+
+                if not title or not link:
+                    continue
+
+                items.append({
+                    'title': unescape(title),
+                    'link': link,
+                    'description': description,
+                    'pub_date': pub_date
+                })
+            return items
+
+        # Atom 형태
+        ns = {'atom': 'http://www.w3.org/2005/Atom'}
+        for entry in root.findall('atom:entry', ns):
+            title = entry.findtext('atom:title', default='', namespaces=ns).strip()
+            link_elem = entry.find('atom:link', ns)
+            link = link_elem.get('href', '').strip() if link_elem is not None else ''
+            summary = entry.findtext('atom:summary', default='', namespaces=ns).strip()
+            updated = entry.findtext('atom:updated', default='', namespaces=ns).strip()
+
+            if not title or not link:
+                continue
+
+            items.append({
+                'title': unescape(title),
+                'link': link,
+                'description': summary,
+                'pub_date': updated
+            })
+
+        return items
+
+    def crawl_rss_source(self, source: Dict) -> List[Dict]:
+        """RSS 기반 크롤링"""
+        articles = []
+        rss_urls = source.get('rss_urls', [])
+        if not rss_urls:
+            return articles
+
+        logger.info(f"{source['name']} RSS에서 뉴스 수집 중...")
+        xml_text = self._fetch_rss_content(rss_urls)
+        if not xml_text:
+            logger.error(f"{source['name']} RSS 수집 실패: 유효한 RSS 응답 없음")
+            return articles
+
+        items = self._extract_rss_items(xml_text)
+        for item in items[:10]:
+            title = item['title']
+            link = item['link']
+
+            if not self.is_relevant_article(title, item.get('description', '')):
+                continue
+
+            description = item.get('description', '')
+            content_text = ''
+            if description:
+                content_text = BeautifulSoup(description, 'html.parser').get_text(" ", strip=True)
+
+            if not content_text:
+                content_text = self.extract_article_content(link)
+
+            if not content_text:
+                content_text = title
+
+            articles.append({
+                'title': title,
+                'content': content_text,
+                'url': link,
+                'source': source['name'],
+                'published_date': self.parse_date(item.get('pub_date', ''))
+            })
+
+        logger.info(f"{source['name']} RSS에서 {len(articles)}개 기사 수집 완료")
+        return articles
+
+    def crawl_list_source(self, source: Dict) -> List[Dict]:
+        """목록 페이지 기반 크롤링"""
+        articles = []
+        list_urls = source.get('list_urls', [])
+        if not list_urls:
+            return articles
+
+        link_pattern = source.get('link_pattern')
+        link_regex = source.get('link_regex')
+        seen_urls = set()
+
+        logger.info(f"{source['name']} 목록 페이지에서 뉴스 수집 중...")
+
+        for list_url in list_urls:
+            try:
+                response = self.session.get(list_url, timeout=15)
+                response.raise_for_status()
+                soup = BeautifulSoup(response.content, 'html.parser')
+
+                for anchor in soup.select('a[href]'):
+                    href = anchor.get('href', '').strip()
+                    if not href:
+                        continue
+
+                    if href.startswith('/'):
+                        href = urljoin(list_url, href)
+
+                    if link_pattern and link_pattern not in href:
+                        continue
+
+                    if link_regex and not re.search(link_regex, href):
+                        continue
+
+                    if href in seen_urls:
+                        continue
+
+                    title = anchor.get_text(strip=True)
+                    if not title or len(title) < 5:
+                        continue
+
+                    if not self.is_relevant_article(title):
+                        continue
+
+                    seen_urls.add(href)
+
+                    content = self.extract_article_content(href)
+                    if not content:
+                        content = title
+
+                    articles.append({
+                        'title': title,
+                        'content': content,
+                        'url': href,
+                        'source': source['name'],
+                        'published_date': datetime.now()
+                    })
+
+                    if len(articles) >= self.max_per_source:
+                        break
+
+                if len(articles) >= self.max_per_source:
+                    break
+
+                time.sleep(random.uniform(1, 2))
+
+            except Exception as e:
+                logger.error(f"{source['name']} 목록 크롤링 실패: {str(e)}")
+                continue
+
+        logger.info(f"{source['name']} 목록에서 {len(articles)}개 기사 수집 완료")
+        return articles
+
     def crawl_source(self, source: Dict) -> List[Dict]:
         """특정 소스에서 뉴스 크롤링"""
+        if source.get('list_urls'):
+            return self.crawl_list_source(source)
+
+        if source.get('rss_urls'):
+            return self.crawl_rss_source(source)
+
         articles = []
         try:
             logger.info(f"{source['name']}에서 뉴스 수집 중...")
@@ -217,7 +445,7 @@ class NewsCrawler:
             
             article_elements = soup.select(source['selector']['articles'])
             
-            for element in article_elements[:10]:  # 최대 10개 기사
+            for element in article_elements[:self.max_per_source]:  # 최대 기사 수 제한
                 try:
                     # 제목 추출
                     title_elem = element.select_one(source['selector']['title'])
