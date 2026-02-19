@@ -89,6 +89,86 @@ def create_app():
     except Exception as e:
         logger.error(f"데이터베이스 확인 실패: {str(e)}")
     
+    # 백그라운드에서 크롤링 작업 실행 (Render 배포 시 뉴스 데이터 수집)
+    def run_initial_crawl():
+        """초기 크롤링 작업"""
+        try:
+            logger.info("🔄 백그라운드 크롤링 시작...")
+            
+            if NewsCrawler is None or NewsAnalyzer is None:
+                logger.warning("뉴스 크롤러/분석기 모듈을 찾을 수 없습니다.")
+                return
+            
+            from news_crawler import NewsCrawler
+            from news_analyzer import NewsAnalyzer
+            from database import database_session, NewsArticle
+            
+            # 기존 기사 개수 확인
+            session = get_db_session()
+            existing_count = session.query(NewsArticle).count()
+            session.close()
+            
+            # 기사가 적으면 크롤링 수행 (Render 배포 시)
+            if existing_count < 5:
+                logger.info(f"현재 기사 {existing_count}개 - 크롤링 시작...")
+                
+                crawler = NewsCrawler()
+                analyzer = NewsAnalyzer()
+                
+                articles = crawler.crawl_semiconductor_news()
+                logger.info(f"크롤링 완료: {len(articles)}개 기사 수집")
+                
+                saved_count = 0
+                for article_data in articles:
+                    try:
+                        # 중복 체크
+                        session = get_db_session()
+                        existing = session.query(NewsArticle).filter_by(url=article_data['url']).first()
+                        
+                        if existing:
+                            session.close()
+                            continue
+                        
+                        # 번역 및 분석
+                        translated_title = analyzer._translate_text(article_data['title'], is_title=True)
+                        priority = analyzer.calculate_priority(article_data)
+                        summary = analyzer.summarize_article(article_data['content'])
+                        
+                        # DB 저장
+                        article = NewsArticle(
+                            title=translated_title,
+                            content=article_data['content'],
+                            summary=summary,
+                            url=article_data['url'],
+                            source=article_data['source'],
+                            published_date=article_data['published_date'],
+                            priority_score=priority,
+                            crawled_at=datetime.now()
+                        )
+                        
+                        session.add(article)
+                        session.commit()
+                        saved_count += 1
+                        session.close()
+                    except Exception as e:
+                        logger.error(f"기사 저장 실패: {str(e)}")
+                        try:
+                            session.rollback()
+                            session.close()
+                        except:
+                            pass
+                
+                logger.info(f"✅ 크롤링 완료: {saved_count}개 기사 저장")
+            else:
+                logger.info(f"기사 {existing_count}개 존재 - 크롤링 스킵")
+        except Exception as e:
+            logger.error(f"백그라운드 크롤링 오류: {str(e)}")
+    
+    # 백그라운드 스레드에서 크롤링 작업 실행
+    if os.getenv('RUN_CRAWL_ON_STARTUP', 'true').lower() == 'true':
+        crawl_thread = threading.Thread(target=run_initial_crawl, daemon=True)
+        crawl_thread.start()
+    
     # Captain DDandDan 최고 보안 시스템 적용
     init_security(app)
     
