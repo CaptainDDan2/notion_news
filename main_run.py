@@ -71,13 +71,13 @@ def update_news():
 
 def run_scheduler():
     """스케줄러 실행"""
-    # 매 시간마다 뉴스 업데이트
-    schedule.every().hour.do(update_news)
+    # 하루 2회 뉴스 업데이트
+    schedule.every(12).hours.do(update_news)
     
     # 초기 실행
     update_news()
     
-    logger.info("스케줄러 시작 - 매 시간마다 뉴스 업데이트")
+    logger.info("스케줄러 시작 - 12시간마다 뉴스 업데이트")
     while True:
         schedule.run_pending()
         time.sleep(60)

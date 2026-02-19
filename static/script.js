@@ -180,7 +180,7 @@ async function loadRecentArticles() {
     showLoading();
     
     try {
-        const response = await fetch('/api/articles?sort=recent&limit=10');
+        const response = await fetch('/api/articles?sort=recent&limit=15');
         const data = await response.json();
         
         if (data.success) {

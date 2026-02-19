@@ -123,7 +123,7 @@ self.addEventListener('sync', (event) => {
 
 async function syncNews() {
   try {
-    const response = await fetch('/api/articles?limit=10');
+    const response = await fetch('/api/articles?limit=25');
     const data = await response.json();
     
     // IndexedDB에 저장
