@@ -18,6 +18,12 @@ class NewsAnalyzer:
     def __init__(self):
         """분석기 초기화"""
         self.min_content_length_for_priority = 1000
+        self.title_tech_bonus_terms = [
+            '2nm', '3nm', '1nm', '5nm', '7nm', 'gaa', 'finfet',
+            '공정', '소자', '반도체', '파운드리', 'foundry',
+            'tsmc', '삼성', 'samsung', '하이닉스', 'hynix',
+            'hbm', 'dram', 'nand'
+        ]
         # OpenAI API 키 설정
         self.openai_api_key = os.getenv('OPENAI_API_KEY')
         if self.openai_api_key:
@@ -406,6 +412,12 @@ class NewsAnalyzer:
             if len(content) >= self.min_content_length_for_priority:
                 content_score = self._calculate_text_score(content) * 0.8
                 priority_score += min(content_score, 3.0)
+
+            # 2-1. 제목 기술 키워드 보너스 (본문이 짧아도 기술 기사 우선)
+            title_lower = title.lower()
+            title_tech_hits = sum(1 for term in self.title_tech_bonus_terms if term in title_lower)
+            if title_tech_hits > 0:
+                priority_score += min(title_tech_hits * 0.8, 3.0)
             
             # 3. 소스 신뢰도 점수 (최대 3.5점) - 기업 뉴스룸 보너스 포함
             source_score = self._calculate_source_score(source)

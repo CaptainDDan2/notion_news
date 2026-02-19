@@ -53,11 +53,9 @@ class NewsCrawler:
                 'name': 'TheElec',
                 'list_urls': [
                     'https://www.thelec.kr/news/articleList.html?sc_section_code=S1N3&view_type=sm',
-                    'https://www.thelec.kr/news/articleList.html?sc_section_code=S1N1&view_type=sm',
-                    'https://www.thelec.net/news/articleList.html?sc_section_code=S1N3&view_type=sm',
-                    'https://www.thelec.net/news/articleList.html?sc_section_code=S1N1&view_type=sm'
+                    'https://www.thelec.kr/news/articleList.html?sc_section_code=S1N1&view_type=sm'
                 ],
-                'link_regex': r'https://www\.thelec\.(net|kr)/news/articleView\.html\?idxno='
+                'link_regex': r'https://www\.thelec\.kr/news/articleView\.html\?idxno='
             },
             {
                 'name': '서울경제',
